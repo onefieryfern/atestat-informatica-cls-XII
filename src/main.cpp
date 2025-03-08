@@ -24,13 +24,14 @@ int main(int argc, char** argv)
     }
 
     // Program loop
-    while (true)
+    bool running = true;
+    while (running)
     {
         SDL_Event event;
-        if (SDL_PollEvent(&event))
+        while (SDL_PollEvent(&event))
         {
             if (event.type == SDL_EVENT_QUIT)
-                break;
+                running = false;
         }
 
         SDL_Delay(3);
