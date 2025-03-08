@@ -34,6 +34,14 @@ int main(int argc, char** argv)
                 running = false;
         }
 
+        // Start with a "blank canvas"
+        SDL_SetRenderTarget(renderer, nullptr);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        // Render the composed frame
+        SDL_RenderPresent(renderer);
+
         SDL_Delay(3);
     }
 
