@@ -23,6 +23,8 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    SDL_SetWindowMinimumSize(window, 640, 360);
+
     // Program loop
     bool running = true;
     while (running)
