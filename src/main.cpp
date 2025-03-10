@@ -1,6 +1,8 @@
+#include "sort.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
+#include <vector>
 
 int main(int argc, char** argv)
 {
@@ -24,6 +26,13 @@ int main(int argc, char** argv)
     }
 
     SDL_SetWindowMinimumSize(window, 640, 360);
+
+    /*
+    std::vector<int> v {4, 2, 6, 3, 1, 5};
+    bubble_sort(v);
+    for (auto i : v) { std::cout << i << ' '; }
+    std::cout << std::endl;
+     */
 
     // Program loop
     bool running = true;
