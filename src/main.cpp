@@ -1,5 +1,6 @@
 #include "rectangle.h"
-#include "sort.h"
+#include "sort/sort.h"
+#include "sort/visual.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>

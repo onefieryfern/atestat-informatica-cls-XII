@@ -15,7 +15,9 @@ add_executable(atestat_informatica_cls_XII src/main.cpp
         src/sort/sort.cpp
         src/sort/sort.h
         src/rectangle.cpp
-        src/rectangle.h)
+        src/rectangle.h
+        src/sort/visual.cpp
+        src/sort/visual.h)
 
 target_include_directories(atestat_informatica_cls_XII PRIVATE src/)
 
