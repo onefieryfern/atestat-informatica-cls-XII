@@ -12,10 +12,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(atestat_informatica_cls_XII src/main.cpp
-        src/sort.cpp
-        src/sort.h
+        src/sort/sort.cpp
+        src/sort/sort.h
         src/rectangle.cpp
         src/rectangle.h)
+
+target_include_directories(atestat_informatica_cls_XII PRIVATE src/)
 
 # Link to the actual SDL3 library.
 target_link_libraries(atestat_informatica_cls_XII PRIVATE SDL3::SDL3)
