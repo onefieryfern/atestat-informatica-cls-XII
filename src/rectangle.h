@@ -2,20 +2,27 @@
 #define ATESTAT_INFORMATICA_CLS_XII_RECTANGLE_H
 
 #include <SDL3/SDL.h>
+#include <vector>
 
-struct RectColourProp
+class Rectangle
 {
-    SDL_Color fillColour {0, 0, 0, 0};
-    SDL_Color outlineColour {0, 0, 0, 0};
-};
+private:
+    SDL_FRect m_dimensions {0, 0, 0, 0};
+    SDL_Color m_fillColour {0, 0, 0, 0};
+    SDL_Color m_outlineColour {0, 0, 0, 0};
+public:
+    Rectangle(SDL_FRect sdlFRect, SDL_Color fillColour, SDL_Color outlineColour);
 
-/**
- * Draw a (filled) rectangle with the colour(s) specified on the current rendering target
- */
-void drawRect(
-        SDL_Renderer* renderer,
-        const SDL_FRect& rect,
-        const RectColourProp& = {{0, 0, 0, 0}, {0, 0, 0, 0}}
-);
+    SDL_FRect getDimensions() const;
+    SDL_Color getFillColour() const;
+    SDL_Color getOutlineColour() const;
+
+    void setDimensions(SDL_FRect sdlFRect);
+    void setFillColour(SDL_Color colour);
+    void setOutlineColour(SDL_Color colour);
+
+    void draw(SDL_Renderer* renderer) const;
+    static void drawRects(SDL_Renderer* renderer, const std::vector<Rectangle>& rects);
+};
 
 #endif //ATESTAT_INFORMATICA_CLS_XII_RECTANGLE_H

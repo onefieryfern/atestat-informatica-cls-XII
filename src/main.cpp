@@ -1,6 +1,5 @@
+#include "graphing.h"
 #include "rectangle.h"
-#include "sort/sort.h"
-#include "sort/visual.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
@@ -29,13 +28,6 @@ int main(int argc, char** argv)
 
     SDL_SetWindowMinimumSize(window, 640, 360);
 
-    /*
-    std::vector<int> v {4, 2, 6, 3, 1, 5};
-    bubble_sort(v);
-    for (auto i : v) { std::cout << i << ' '; }
-    std::cout << std::endl;
-     */
-
     // Program loop
     bool running = true;
     while (running)
@@ -52,6 +44,17 @@ int main(int argc, char** argv)
         SDL_SetRenderTarget(renderer, nullptr);
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        // Compose the frame
+        std::vector<int> v {1, 6, -5, 8, 4, 2, -3};
+
+        auto rects = getRectsFromIntVector(renderer, v, 0.01f);
+        for (Rectangle& rect : rects)
+        {
+            rect.setFillColour({0xff, 0x36, 0x24, 0xff});
+            rect.setOutlineColour({0, 0, 0, 0});
+        }
+        Rectangle::drawRects(renderer, rects);
 
         // Render the composed frame
         SDL_RenderPresent(renderer);
