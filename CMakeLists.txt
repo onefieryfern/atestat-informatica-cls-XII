@@ -12,8 +12,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 add_executable(atestat_informatica_cls_XII src/main.cpp
-        src/sort/sort.cpp
-        src/sort/sort.h
+        src/sort.cpp
+        src/sort.h
         src/rectangle.cpp
         src/rectangle.h
         src/sort/visual.cpp
