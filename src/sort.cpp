@@ -5,10 +5,10 @@
 void bubble_sort(std::vector<int>& vector)
 {
     const size_t len = vector.size();
-    bool sorted = false;
+    bool swapped = true;
 
-    while (!sorted) {
-        sorted = true;
+    while (swapped) {
+        swapped = false;
 
         for (size_t i = 0; i < len - 1; ++i)
         {
@@ -17,7 +17,7 @@ void bubble_sort(std::vector<int>& vector)
 
             if (current > next)
             {
-                sorted = false;
+                swapped = true;
                 std::swap(current, next);
             }
         }
