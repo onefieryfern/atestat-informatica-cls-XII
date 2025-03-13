@@ -1,5 +1,6 @@
 #include "graphing.h"
 #include "rectangle.h"
+#include "render.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
@@ -17,16 +18,8 @@ int main(int argc, char** argv)
     }
 
     // Create SDL window and associated renderer
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-
-    if (!SDL_CreateWindowAndRenderer("Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE, &window, &renderer))
-    {
-        std::cerr << "Failed to create SDL window and/or renderer: " << SDL_GetError() << '\n';
-        return EXIT_FAILURE;
-    }
-
-    SDL_SetWindowMinimumSize(window, 640, 360);
+    RenderWindow window {"Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE};
+    SDL_SetWindowMinimumSize(window.getWindow(), 640, 360);
 
     // Program loop
     bool running = true;
@@ -41,30 +34,27 @@ int main(int argc, char** argv)
         }
 
         // Start with a "blank canvas"
-        SDL_SetRenderTarget(renderer, nullptr);
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        window.blank({0xff, 0xff, 0xff, 0xff});
 
         // Compose the frame
         std::vector<int> v {1, 6, -5, 8, 4, 2, -3};
 
-        auto rects = getRectsFromIntVector(renderer, v, 0.01f);
+        auto rects = getRectsFromIntVector(window.getRenderer(), v, 0.01f);
         for (Rectangle& rect : rects)
         {
             rect.setFillColour({0xff, 0x36, 0x24, 0xff});
             rect.setOutlineColour({0, 0, 0, 0});
         }
-        Rectangle::drawRects(renderer, rects);
+        Rectangle::drawRects(window.getRenderer(), rects);
 
         // Render the composed frame
-        SDL_RenderPresent(renderer);
+        window.renderPresent();
 
         SDL_Delay(3);
     }
 
     // Exit gracefully
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    window.~RenderWindow();
     SDL_Quit();
 
     return 0;

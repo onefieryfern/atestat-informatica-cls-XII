@@ -17,7 +17,9 @@ add_executable(atestat_informatica_cls_XII src/main.cpp
         src/rectangle.cpp
         src/rectangle.h
         src/graphing.cpp
-        src/graphing.h)
+        src/graphing.h
+        src/render.cpp
+        src/render.h)
 
 target_include_directories(atestat_informatica_cls_XII PRIVATE src/)
 
