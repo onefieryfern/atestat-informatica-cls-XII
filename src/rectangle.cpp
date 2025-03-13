@@ -2,6 +2,11 @@
 #include <SDL3/SDL.h>
 #include <vector>
 
+Rectangle::Rectangle(SDL_FRect sdlFRect)
+{
+    m_dimensions = sdlFRect;
+}
+
 Rectangle::Rectangle(SDL_FRect sdlFRect, SDL_Color fillColour, SDL_Color outlineColour)
 {
     m_dimensions = sdlFRect;

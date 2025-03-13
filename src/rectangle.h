@@ -17,6 +17,7 @@ private:
     SDL_Color m_fillColour {0, 0, 0, 0};
     SDL_Color m_outlineColour {0, 0, 0, 0};
 public:
+    Rectangle(SDL_FRect sdlFRect);
     Rectangle(SDL_FRect sdlFRect, SDL_Color fillColour, SDL_Color outlineColour);
     Rectangle(SDL_FRect sdlFRect, Colours colours);
 
