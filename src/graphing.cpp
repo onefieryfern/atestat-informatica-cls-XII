@@ -1,5 +1,6 @@
 #include "graphing.h"
 #include "rectangle.h"
+#include "render.h"
 #include <algorithm>
 
 /**
@@ -7,10 +8,10 @@
  * target
  * @param renderer
  * @param vector
- * @param paddingRatio the padding between rectangles as a fraction of the current rendering context's output size
+ * @param colour the colours of the new rectangles
  * @return a std::vector\<Rectangle\> containing the rectangles
  */
-std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::vector<int> &vector, float paddingRatio)
+std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::vector<int>& vector, Rectangle::Colours colour)
 {
     // Get current rendering context output size
     int w {}, h {};
@@ -22,7 +23,7 @@ std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::
     const size_t len { vector.size() };
 
     // Calculate the padding between rectangles
-    const float padding = paddingRatio * outputWidth; // in pixels
+    const float padding = (outputWidth / static_cast<float>(len)) * 0.05f; // in pixels
     const float totalPadding = static_cast<float>(len - 1) * padding;
 
     // Calculate the width of a rectangle, with padding in mind
@@ -47,9 +48,23 @@ std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::
         float x = static_cast<float>(i) * (rectWidth + padding);
         float y = (vector.at(i) >= 0 ? baselineY - rectHeight : baselineY);
 
-        Rectangle rect {{x, y, rectWidth, rectHeight}, {}, {}};
+        Rectangle rect {{x, y, rectWidth, rectHeight}, colour.fill, colour.outline};
         rects.push_back(rect);
     }
 
     return rects;
+}
+
+void drawRectsFromIntVector(RenderWindow& window, const std::vector<int>& vector, GraphColours colours, const std::vector<size_t>& highlightedRects)
+{
+    std::vector<Rectangle> rects { getRectsFromIntVector(window.getRenderer(), vector, colours.foreground) };
+
+    for (auto i : highlightedRects)
+    {
+        rects.at(i).setColours(colours.highlight);
+    }
+
+    window.blank(colours.background);
+    Rectangle::drawRects(window.getRenderer(), rects);
+    window.renderPresent();
 }

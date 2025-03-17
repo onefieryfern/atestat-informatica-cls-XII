@@ -1,14 +1,24 @@
 #include "graphing.h"
-#include "rectangle.h"
 #include "render.h"
-#include <SDL3/SDL.h>
+#include "sort.h"
 #include <SDL3/SDL_main.h>
+#include <cstring>
 #include <iostream>
 #include <vector>
 
 int main(int argc, char** argv)
 {
-    std::cout << "Hello, World!" << std::endl;
+    // Check arguments
+    if (argc < 2)
+    {
+        std::cout << "Invalid usage! Do " << argv[0] << " help\n";
+        return 0;
+    }
+    else if (strcmp(argv[1], "help") == 0)
+    {
+        std::cout << "Possible commands: help, bubble\n";
+        return 0;
+    }
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
@@ -17,40 +27,32 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
+    std::cout << "Hello, World!" << std::endl;
+
     // Create SDL window and associated renderer
     RenderWindow window {"Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE};
     SDL_SetWindowMinimumSize(window.getWindow(), 640, 360);
 
-    // Program loop
-    bool running = true;
-    while (running)
+    // Handle arguments
+    if (strcmp(argv[1], "bubble") == 0)
     {
-        // Event handling
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_EVENT_QUIT)
-                running = false;
-        }
+        SDL_SetWindowTitle(window.getWindow(), "Bubble Sort");
 
-        // Start with a "blank canvas"
-        window.blank({0xff, 0xff, 0xff, 0xff});
+        constexpr GraphColours graphColours
+                {{0xff, 0xff, 0xff, 0xff},
+                 {{0x00, 0x00, 0x00, 0xff}, {}},
+                 {{0xff, 0x00, 0x00, 0xff}, {}}
+                };
 
-        // Compose the frame
-        std::vector<int> v {1, 6, -5, 8, 4, 2, -3};
+        // Test vector
+        std::vector<int> v {1, 6, -5, 8, 4, 2, -3, 3, -2, 7};
 
-        auto rects = getRectsFromIntVector(window.getRenderer(), v, 0.01f);
-        for (Rectangle& rect : rects)
-        {
-            rect.setFillColour({0xff, 0x36, 0x24, 0xff});
-            rect.setOutlineColour({0, 0, 0, 0});
-        }
-        Rectangle::drawRects(window.getRenderer(), rects);
-
-        // Render the composed frame
-        window.renderPresent();
-
-        SDL_Delay(3);
+        bubble_sort_visual(window, v, graphColours, 200);
+    }
+    else
+    {
+        std::cout << "Invalid usage! Do " << argv[0] << " help\n";
+        return 0;
     }
 
     // Exit gracefully
