@@ -44,3 +44,38 @@ void bubble_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphCol
         }
     }
 }
+
+void selection_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphColours graphColours, int delay)
+{
+    const size_t len = vector.size();
+
+    for (size_t i = 0; i < len; ++i)
+    {
+        for (size_t j = i + 1; j < len; ++j)
+        {
+            // Event handling
+            SDL_Event event;
+            while (SDL_PollEvent(&event))
+            {
+                if (event.type == SDL_EVENT_QUIT)
+                    exit(0);
+            }
+
+            // Draw initial state
+            drawRectsFromIntVector(window, vector, graphColours, {i, j});
+            SDL_Delay(delay);
+
+            int& current { vector.at(i) };
+            int& next { vector.at(j) };
+
+            if (current > next)
+            {
+                std::swap(current, next);
+
+                // Draw new state
+                drawRectsFromIntVector(window, vector, graphColours, {i, j});
+                SDL_Delay(delay);
+            }
+        }
+    }
+}

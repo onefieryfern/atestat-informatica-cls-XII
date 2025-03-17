@@ -16,7 +16,7 @@ int main(int argc, char** argv)
     }
     else if (strcmp(argv[1], "help") == 0)
     {
-        std::cout << "Possible commands: help, bubble\n";
+        std::cout << "Possible commands: help, bubble, selection\n";
         return 0;
     }
 
@@ -33,21 +33,25 @@ int main(int argc, char** argv)
     RenderWindow window {"Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE};
     SDL_SetWindowMinimumSize(window.getWindow(), 640, 360);
 
+    // Test vector and colours
+    std::vector<int> v {1, 6, -5, 8, 4, 2, -3, 3, -2, 7};
+
+    constexpr GraphColours graphColours
+            {{0xff, 0xff, 0xff, 0xff},
+             {{0x00, 0x00, 0x00, 0xff}, {}},
+             {{0xff, 0x00, 0x00, 0xff}, {}}
+            };
+
     // Handle arguments
     if (strcmp(argv[1], "bubble") == 0)
     {
         SDL_SetWindowTitle(window.getWindow(), "Bubble Sort");
-
-        constexpr GraphColours graphColours
-                {{0xff, 0xff, 0xff, 0xff},
-                 {{0x00, 0x00, 0x00, 0xff}, {}},
-                 {{0xff, 0x00, 0x00, 0xff}, {}}
-                };
-
-        // Test vector
-        std::vector<int> v {1, 6, -5, 8, 4, 2, -3, 3, -2, 7};
-
         bubble_sort_visual(window, v, graphColours, 200);
+    }
+    if (strcmp(argv[1], "selection") == 0)
+    {
+        SDL_SetWindowTitle(window.getWindow(), "Selection Sort");
+        selection_sort_visual(window, v, graphColours, 200);
     }
     else
     {
