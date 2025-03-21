@@ -79,3 +79,32 @@ void selection_sort_visual(RenderWindow& window, std::vector<int>& vector, Graph
         }
     }
 }
+
+void insertion_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphColours graphColours, int delay)
+{
+    const size_t len = vector.size();
+
+    for (size_t i = 1; i < len; ++i)
+    {
+        for (size_t j = i; j > 0 && vector.at(j - 1) > vector.at(j); --j)
+        {
+            // Event handling
+            SDL_Event event;
+            while (SDL_PollEvent(&event))
+            {
+                if (event.type == SDL_EVENT_QUIT)
+                    exit(0);
+            }
+
+            // Draw initial state
+            drawRectsFromIntVector(window, vector, graphColours, {j, j - 1});
+            SDL_Delay(delay);
+
+            std::swap(vector.at(j), vector.at(j - 1));
+
+            // Draw new state
+            drawRectsFromIntVector(window, vector, graphColours, {j, j - 1});
+            SDL_Delay(delay);
+        }
+    }
+}

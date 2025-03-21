@@ -16,7 +16,7 @@ int main(int argc, char** argv)
     }
     else if (strcmp(argv[1], "help") == 0)
     {
-        std::cout << "Possible commands: help, bubble, selection\n";
+        std::cout << "Possible commands: help, bubble, selection, insertion\n";
         return 0;
     }
 
@@ -52,6 +52,11 @@ int main(int argc, char** argv)
     {
         SDL_SetWindowTitle(window.getWindow(), "Selection Sort");
         selection_sort_visual(window, v, graphColours, 200);
+    }
+    else if (strcmp(argv[1], "insertion") == 0)
+    {
+        SDL_SetWindowTitle(window.getWindow(), "Insertion Sort");
+        insertion_sort_visual(window, v, graphColours, 200);
     }
     else
     {
