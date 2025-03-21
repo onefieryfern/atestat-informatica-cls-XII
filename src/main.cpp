@@ -35,28 +35,28 @@ int main(int argc, char** argv)
 
     // Test vector and colours
     std::vector<int> v {1, 6, -5, 8, 4, 2, -3, 3, -2, 7};
+    constexpr int delay { 300 };
 
-    constexpr GraphColours graphColours
-            {{0xff, 0xff, 0xff, 0xff},
-             {{0x00, 0x00, 0x00, 0xff}, {}},
-             {{0xff, 0x00, 0x00, 0xff}, {}}
-            };
+    const SDL_Color backgroundColour { 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE };
+    const Rectangle::Colours rectColour { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, {} };
+    const Rectangle::Colours selectedColour { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, {} };
+    const Rectangle::Colours swappedColour { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, {} };
 
     // Handle arguments
     if (strcmp(argv[1], "selection") == 0)
     {
         SDL_SetWindowTitle(window.getWindow(), "Selection Sort");
-        selection_sort_visual(window, v, graphColours, 200);
+        selection_sort_visual(window, v, delay, backgroundColour, rectColour, selectedColour, swappedColour);
     }
     else if (strcmp(argv[1], "bubble") == 0)
     {
         SDL_SetWindowTitle(window.getWindow(), "Bubble Sort");
-        bubble_sort_visual(window, v, graphColours, 200);
+        bubble_sort_visual(window, v, delay, backgroundColour, rectColour, selectedColour, swappedColour);
     }
     else if (strcmp(argv[1], "insertion") == 0)
     {
         SDL_SetWindowTitle(window.getWindow(), "Insertion Sort");
-        insertion_sort_visual(window, v, graphColours, 200);
+        insertion_sort_visual(window, v, delay, backgroundColour, rectColour, selectedColour, swappedColour);
     }
     else
     {

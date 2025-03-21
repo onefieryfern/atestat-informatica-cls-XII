@@ -6,9 +6,19 @@
 #include <utility>
 #include <vector>
 
-void selection_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphColours graphColours, int delay)
+void selection_sort_visual
+(
+    RenderWindow& window,
+    std::vector<int>& vector,
+    const int delay,
+    const SDL_Color& backgroundColour,
+    const Rectangle::Colours& rectColour,
+    const Rectangle::Colours& selectedColour,
+    const Rectangle::Colours& swappedColour
+)
 {
     const size_t len = vector.size();
+    std::vector<Rectangle> rects {};
 
     for (size_t i = 0; i < len; ++i)
     {
@@ -23,8 +33,16 @@ void selection_sort_visual(RenderWindow& window, std::vector<int>& vector, Graph
             }
 
             // Draw initial state
-            drawRectsFromIntVector(window, vector, graphColours, {i, j});
+            rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+            rects.at(i).setColours(selectedColour);
+            rects.at(j).setColours(selectedColour);
+
+            window.blank(backgroundColour);
+            Rectangle::drawRects(window.getRenderer(), rects);
+
+            window.renderPresent();
             SDL_Delay(delay);
+
 
             int& current { vector.at(i) };
             int& next { vector.at(j) };
@@ -34,18 +52,37 @@ void selection_sort_visual(RenderWindow& window, std::vector<int>& vector, Graph
                 std::swap(current, next);
 
                 // Draw new state
-                drawRectsFromIntVector(window, vector, graphColours, {i, j});
+                rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+                rects.at(i).setColours(swappedColour);
+                rects.at(j).setColours(swappedColour);
+
+                window.blank(backgroundColour);
+                Rectangle::drawRects(window.getRenderer(), rects);
+
+                window.renderPresent();
                 SDL_Delay(delay);
             }
         }
     }
+
+    SDL_Delay(2 * delay);
 }
 
-void bubble_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphColours graphColours, int delay)
+void bubble_sort_visual
+(
+    RenderWindow& window,
+    std::vector<int>& vector,
+    const int delay,
+    const SDL_Color& backgroundColour,
+    const Rectangle::Colours& rectColour,
+    const Rectangle::Colours& selectedColour,
+    const Rectangle::Colours& swappedColour
+)
 {
-    bool swapped = true;
     const size_t len = vector.size();
+    std::vector<Rectangle> rects {};
 
+    bool swapped = true;
     while (swapped)
     {
         swapped = false;
@@ -61,8 +98,16 @@ void bubble_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphCol
             }
 
             // Draw initial state
-            drawRectsFromIntVector(window, vector, graphColours, {i, i + 1});
+            rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+            rects.at(i).setColours(selectedColour);
+            rects.at(i + 1).setColours(selectedColour);
+
+            window.blank(backgroundColour);
+            Rectangle::drawRects(window.getRenderer(), rects);
+
+            window.renderPresent();
             SDL_Delay(delay);
+
 
             int& current { vector.at(i) };
             int& next { vector.at(i + 1) };
@@ -73,16 +118,35 @@ void bubble_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphCol
                 std::swap(current, next);
 
                 // Draw new state
-                drawRectsFromIntVector(window, vector, graphColours, {i, i + 1});
+                rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+                rects.at(i).setColours(swappedColour);
+                rects.at(i + 1).setColours(swappedColour);
+
+                window.blank(backgroundColour);
+                Rectangle::drawRects(window.getRenderer(), rects);
+
+                window.renderPresent();
                 SDL_Delay(delay);
             }
         }
     }
+
+    SDL_Delay(2 * delay);
 }
 
-void insertion_sort_visual(RenderWindow& window, std::vector<int>& vector, GraphColours graphColours, int delay)
+void insertion_sort_visual
+(
+    RenderWindow& window,
+    std::vector<int>& vector,
+    const int delay,
+    const SDL_Color& backgroundColour,
+    const Rectangle::Colours& rectColour,
+    const Rectangle::Colours& selectedColour,
+    const Rectangle::Colours& swappedColour
+)
 {
     const size_t len = vector.size();
+    std::vector<Rectangle> rects {};
 
     for (size_t i = 1; i < len; ++i)
     {
@@ -97,14 +161,31 @@ void insertion_sort_visual(RenderWindow& window, std::vector<int>& vector, Graph
             }
 
             // Draw initial state
-            drawRectsFromIntVector(window, vector, graphColours, {j, j - 1});
+            rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+            rects.at(j).setColours(selectedColour);
+            rects.at(j - 1).setColours(selectedColour);
+
+            window.blank(backgroundColour);
+            Rectangle::drawRects(window.getRenderer(), rects);
+
+            window.renderPresent();
             SDL_Delay(delay);
+
 
             std::swap(vector.at(j), vector.at(j - 1));
 
             // Draw new state
-            drawRectsFromIntVector(window, vector, graphColours, {j, j - 1});
+            rects = getRectsFromIntVector(window.getRenderer(), vector, rectColour);
+            rects.at(j).setColours(swappedColour);
+            rects.at(j - 1).setColours(swappedColour);
+
+            window.blank(backgroundColour);
+            Rectangle::drawRects(window.getRenderer(), rects);
+
+            window.renderPresent();
             SDL_Delay(delay);
         }
     }
+
+    SDL_Delay(2 * delay);
 }

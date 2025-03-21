@@ -19,12 +19,4 @@ std::vector<Rectangle> getRectsFromIntVector
         Rectangle::Colours colour = {{0xff, 0xff, 0xff, 0xff}, {0x00, 0x00, 0x00, 0x00}}
 );
 
-void drawRectsFromIntVector
-(
-        RenderWindow& window,
-        const std::vector<int>& vector,
-        GraphColours colours,
-        const std::vector<size_t>& highlightedRects = {}
-);
-
 #endif //ATESTAT_INFORMATICA_CLS_XII_GRAPHING_H

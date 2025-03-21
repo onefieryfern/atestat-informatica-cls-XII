@@ -54,17 +54,3 @@ std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::
 
     return rects;
 }
-
-void drawRectsFromIntVector(RenderWindow& window, const std::vector<int>& vector, GraphColours colours, const std::vector<size_t>& highlightedRects)
-{
-    std::vector<Rectangle> rects { getRectsFromIntVector(window.getRenderer(), vector, colours.foreground) };
-
-    for (auto i : highlightedRects)
-    {
-        rects.at(i).setColours(colours.highlight);
-    }
-
-    window.blank(colours.background);
-    Rectangle::drawRects(window.getRenderer(), rects);
-    window.renderPresent();
-}
