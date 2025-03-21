@@ -48,7 +48,7 @@ int main(int argc, char** argv)
         SDL_SetWindowTitle(window.getWindow(), "Bubble Sort");
         bubble_sort_visual(window, v, graphColours, 200);
     }
-    if (strcmp(argv[1], "selection") == 0)
+    else if (strcmp(argv[1], "selection") == 0)
     {
         SDL_SetWindowTitle(window.getWindow(), "Selection Sort");
         selection_sort_visual(window, v, graphColours, 200);
