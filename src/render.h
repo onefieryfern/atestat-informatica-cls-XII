@@ -1,6 +1,7 @@
 #ifndef ATESTAT_INFORMATICA_CLS_XII_RENDER_H
 #define ATESTAT_INFORMATICA_CLS_XII_RENDER_H
 
+#include "constants.h"
 #include <SDL3/SDL.h>
 #include <vector>
 
@@ -16,7 +17,7 @@ public:
     SDL_Renderer* getRenderer();
     SDL_Window* getWindow();
 
-    void blank(const SDL_Color& colour = {0, 0, 0, 255});
+    void blank(const SDL_Color& colour = constants::colours::black);
     void renderPresent();
 };
 

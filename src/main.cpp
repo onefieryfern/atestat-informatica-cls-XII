@@ -38,9 +38,9 @@ int main(int argc, char** argv)
     constexpr int delay { 300 };
 
     const SDL_Color backgroundColour { 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE };
-    const Rectangle::Colours rectColour { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, {} };
-    const Rectangle::Colours selectedColour { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, {} };
-    const Rectangle::Colours swappedColour { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, {} };
+    const Rectangle::Colours rectColour { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, constants::colours::none };
+    const Rectangle::Colours selectedColour { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, constants::colours::none };
+    const Rectangle::Colours swappedColour { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, constants::colours::none };
 
     // Handle arguments
     if (strcmp(argv[1], "selection") == 0)
