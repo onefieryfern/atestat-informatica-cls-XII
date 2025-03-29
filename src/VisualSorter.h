@@ -1,0 +1,54 @@
+#ifndef ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
+#define ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
+
+#include "rectangle.h"
+#include "render.h"
+#include <SDL3/SDL.h>
+#include <vector>
+
+class VisualSorter
+{
+public:
+    enum SortingMethod { none, selection, bubble, insertion };
+
+    struct Properties
+    {
+        SDL_Color backgroundColour { constants::colours::white };
+        Rectangle::Colours rectColour { constants::colours::black, constants::colours::none };
+        Rectangle::Colours selectedColour { constants::colours::blue, constants::colours::none };
+        Rectangle::Colours swappedColour { constants::colours::red, constants::colours::none };
+    };
+
+    struct SortingStep
+    {
+        std::vector<int> sortVector {};
+        std::vector<size_t> highlightIndexes {};
+        Rectangle::Colours highlightColour {};
+    };
+
+    struct State
+    {
+        SortingMethod method { none };
+        std::vector<int> sortVector {};
+        std::vector<SortingStep> generatedSteps {};
+        size_t nextStep {};
+    };
+private:
+    RenderWindow& m_renderWindow;
+    Properties m_properties;
+    State m_state;
+public:
+    VisualSorter(RenderWindow& renderWindow, Properties properties);
+private:
+    void selection_sort_visual_stepped(size_t step);
+    void bubble_sort_visual_stepped();
+    void insertion_sort_visual_stepped(size_t step);
+public:
+    void startSort(const std::vector<int>& vector, SortingMethod method);
+    void continueSort();
+    bool hasSortFinished() const;
+    bool areRectsAvailable() const;
+    std::vector<Rectangle> getNextStepRects();
+};
+
+#endif //ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
