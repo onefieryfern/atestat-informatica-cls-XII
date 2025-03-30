@@ -3,23 +3,38 @@
 #include "utility.h"
 #include "VisualSorter.h"
 #include <SDL3/SDL_main.h>
-#include <cstring>
 #include <iostream>
+#include <string_view>
 #include <vector>
 
 int main(int argc, char** argv)
 {
+    using namespace std::literals;
+
     // Check arguments
     if (argc < 2)
     {
         std::cout << "Invalid usage! Do " << argv[0] << " help\n";
         return 0;
     }
-    else if (strcmp(argv[1], "help") == 0)
+
+    const std::string_view subcommand { argv[1] };
+    if (subcommand == "help"sv)
     {
         std::cout << "Possible commands: help, selection, bubble, insertion\n";
         return 0;
     }
+
+    // Default properties
+    constexpr int32_t delay { 300 };
+
+    constexpr SDL_Color backgroundColour { constants::colours::white };
+    constexpr Rectangle::Colours rectColour
+        { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, constants::colours::none };
+    constexpr Rectangle::Colours selectedColour
+        { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, constants::colours::none };
+    constexpr Rectangle::Colours swappedColour
+        { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, constants::colours::none };
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
@@ -28,38 +43,31 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    std::cout << "Hello, World!" << std::endl;
-
     // Create SDL window and associated renderer
     RenderWindow window {"Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE};
     SDL_SetWindowMinimumSize(window.getWindow(), 640, 360);
 
-    // Test vector and colours
-    std::vector<int> v { 1, 6, -5, 8, 4, 2, -3, 3, -2, 7 };
-    constexpr int32_t delay { 300 };
-
-    constexpr SDL_Color backgroundColour { 0xff, 0xff, 0xff, SDL_ALPHA_OPAQUE };
-    constexpr Rectangle::Colours rectColour { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, constants::colours::none };
-    constexpr Rectangle::Colours selectedColour { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, constants::colours::none };
-    constexpr Rectangle::Colours swappedColour { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, constants::colours::none };
-
-    VisualSorter visualSorter { window, { backgroundColour, rectColour, selectedColour, swappedColour } };
+    // Display message after successful startup
+    std::cout << "Hello, World!" << std::endl;
 
     // Handle arguments
-    if (strcmp(argv[1], "selection") == 0)
+    std::string_view windowTitle {};
+    VisualSorter::SortingMethod sortingMethod {};
+
+    if (subcommand == "selection"sv)
     {
-        SDL_SetWindowTitle(window.getWindow(), "Selection Sort");
-        visualSorter.startSort(v, VisualSorter::SortingMethod::selection);
+        windowTitle = "Selection Sort"sv;
+        sortingMethod = VisualSorter::selection;
     }
-    else if (strcmp(argv[1], "bubble") == 0)
+    else if (subcommand == "bubble"sv)
     {
-        SDL_SetWindowTitle(window.getWindow(), "Bubble Sort");
-        visualSorter.startSort(v, VisualSorter::SortingMethod::bubble);
+        windowTitle = "Bubble Sort"sv;
+        sortingMethod = VisualSorter::bubble;
     }
-    else if (strcmp(argv[1], "insertion") == 0)
+    else if (subcommand == "insertion"sv)
     {
-        SDL_SetWindowTitle(window.getWindow(), "Insertion Sort");
-        visualSorter.startSort(v, VisualSorter::SortingMethod::insertion);
+        windowTitle = "Insertion Sort"sv;
+        sortingMethod = VisualSorter::insertion;
     }
     else
     {
@@ -67,6 +75,17 @@ int main(int argc, char** argv)
         return 0;
     }
 
+    // Instantiate visual sorter
+    VisualSorter visualSorter { window, { backgroundColour, rectColour, selectedColour, swappedColour } };
+
+    // Instantiate test vector
+    std::vector<int> vector { 1, 6, -5, 8, 4, 2, -3, 3, -2, 7 };
+
+    // Start sorting
+    SDL_SetWindowTitle(window.getWindow(), windowTitle.data());
+    visualSorter.startSort(vector, sortingMethod);
+
+    // Do the sorting and draw the results
     while (!visualSorter.hasSortFinished() || visualSorter.areRectsAvailable())
     {
         while (!visualSorter.areRectsAvailable() && !visualSorter.hasSortFinished())
