@@ -1,6 +1,5 @@
 #include "graphing.h"
 #include "rectangle.h"
-#include "render.h"
 #include <algorithm>
 
 /**

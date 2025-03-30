@@ -3,7 +3,6 @@
 
 #include "constants.h"
 #include <SDL3/SDL.h>
-#include <vector>
 
 class RenderWindow
 {
