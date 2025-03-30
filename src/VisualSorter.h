@@ -33,21 +33,24 @@ public:
         std::vector<SortingStep> generatedSteps {};
         size_t nextStep {};
     };
+
 private:
     RenderWindow& m_renderWindow;
     Properties m_properties;
     State m_state;
-public:
-    VisualSorter(RenderWindow& renderWindow, Properties properties);
-private:
+
+    bool continueSort();
+    bool areRectsAvailable() const;
+
     void selection_sort_visual_stepped(size_t step);
     void bubble_sort_visual_stepped();
     void insertion_sort_visual_stepped(size_t step);
+
 public:
+    VisualSorter(RenderWindow& renderWindow, Properties properties);
+
     void startSort(const std::vector<int>& vector, SortingMethod method);
-    void continueSort();
     bool hasSortFinished() const;
-    bool areRectsAvailable() const;
     std::vector<Rectangle> getNextStepRects();
 };
 

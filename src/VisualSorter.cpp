@@ -30,27 +30,38 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
 
     continueSort();
 }
-void VisualSorter::continueSort()
+
+/**
+ * Continues sorting, if it was started previously and it has not finished
+ * @return true if sorting has continued successfully and false otherwise
+ */
+bool VisualSorter::continueSort()
 {
-    switch (m_state.method)
+    while (!areRectsAvailable())
     {
-    case selection:
-        selection_sort_visual_stepped(m_state.nextStep);
-        break;
-    case bubble:
-        bubble_sort_visual_stepped();
-        break;
-    case insertion:
-        insertion_sort_visual_stepped(m_state.nextStep);
-        break;
-    case none:
-    default:
-        return;
+        switch (m_state.method)
+        {
+        case selection:
+            selection_sort_visual_stepped(m_state.nextStep);
+            break;
+        case bubble:
+            bubble_sort_visual_stepped();
+            break;
+        case insertion:
+            insertion_sort_visual_stepped(m_state.nextStep);
+            break;
+        case none:
+        default:
+            return false;
+        }
     }
+
+    return true;
 }
+
 bool VisualSorter::hasSortFinished() const
 {
-    return m_state.method == none;
+    return m_state.method == none && !areRectsAvailable();
 }
 
 bool VisualSorter::areRectsAvailable() const
@@ -60,8 +71,9 @@ bool VisualSorter::areRectsAvailable() const
 
 std::vector<Rectangle> VisualSorter::getNextStepRects()
 {
-    if (m_state.generatedSteps.empty())
-        return {};
+    if (!areRectsAvailable())
+        if (!continueSort())
+            return {};
 
     SortingStep& firstInQueue { m_state.generatedSteps.at(0) };
     std::vector<Rectangle> generatedSteps =

@@ -86,13 +86,8 @@ int main(int argc, char** argv)
     visualSorter.startSort(vector, sortingMethod);
 
     // Do the sorting and draw the results
-    while (!visualSorter.hasSortFinished() || visualSorter.areRectsAvailable())
+    while (!visualSorter.hasSortFinished())
     {
-        while (!visualSorter.areRectsAvailable() && !visualSorter.hasSortFinished())
-        {
-            visualSorter.continueSort();
-        }
-
         window.blank(backgroundColour);
         Rectangle::drawRects(window.getRenderer(), visualSorter.getNextStepRects());
         window.renderPresent();
