@@ -97,7 +97,7 @@ void VisualSorter::selection_sort_visual_stepped(const size_t step)
         }
     }
 
-    if (step + 1 < len)
+    if (step + 1 < len - 1)
         m_state.nextStep = step + 1;
     else
         m_state.method = none;
