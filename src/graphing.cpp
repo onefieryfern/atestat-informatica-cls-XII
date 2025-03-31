@@ -31,10 +31,11 @@ std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::
     // Find the extremes of the elements of the vector
     int greatest = *std::max_element(vector.begin(), vector.end());
     int least = *std::min_element(vector.begin(), vector.end());
-    int total_range = (least <= 0 ? std::abs(greatest) + std::abs(least) : std::abs(greatest));
+    int total_range =
+        (least * greatest <= 0 ? std::abs(greatest) + std::abs(least) : std::max(std::abs(least), std::abs(greatest)));
 
     // Calculate the baseline for positive / negative separation, aka the height of the x-axis
-    float baselineY = static_cast<float>(std::abs(greatest)) * (outputHeight / static_cast<float>(total_range));
+    float baselineY = static_cast<float>(std::max(greatest, 0)) * (outputHeight / static_cast<float>(total_range));
 
     std::vector<Rectangle> rects {};
     for (size_t i = 0; i < len; ++i)
