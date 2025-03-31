@@ -44,9 +44,9 @@ private:
     bool areRectsAvailable() const;
     void cleanBeforeSort();
 
-    void selection_sort_visual_stepped(size_t step);
+    void selection_sort_visual_stepped();
     void bubble_sort_visual_stepped();
-    void insertion_sort_visual_stepped(size_t step);
+    void insertion_sort_visual_stepped();
     void comb_sort_visual_stepped();
 
 public:

@@ -46,13 +46,13 @@ bool VisualSorter::continueSort()
         switch (m_state.method)
         {
         case selection:
-            selection_sort_visual_stepped(m_state.nextStep);
+            selection_sort_visual_stepped();
             break;
         case bubble:
             bubble_sort_visual_stepped();
             break;
         case insertion:
-            insertion_sort_visual_stepped(m_state.nextStep);
+            insertion_sort_visual_stepped();
             break;
         case comb:
             comb_sort_visual_stepped();
@@ -100,11 +100,15 @@ std::vector<Rectangle> VisualSorter::getNextStepRects()
     return generatedSteps;
 }
 
-void VisualSorter::selection_sort_visual_stepped(const size_t step)
+void VisualSorter::selection_sort_visual_stepped()
 {
+    // Set up variables
     auto& vector { m_state.sortVector };
-    const size_t len = vector.size();
+    const size_t len { vector.size() };
 
+    const auto& step { m_state.nextStep };
+
+    // One sorting pass
     for (size_t j = step + 1; j < len; ++j)
     {
         // Save initial state
@@ -122,6 +126,7 @@ void VisualSorter::selection_sort_visual_stepped(const size_t step)
         }
     }
 
+    // Prepare for next step or mark as done
     if (step + 1 < len - 1)
         m_state.nextStep = step + 1;
     else
@@ -130,11 +135,13 @@ void VisualSorter::selection_sort_visual_stepped(const size_t step)
 
 void VisualSorter::bubble_sort_visual_stepped()
 {
+    // Set up variables
     auto& vector { m_state.sortVector };
     const size_t len = vector.size();
 
     bool swapped = false;
 
+    // One sorting pass
     for (size_t i = 0; i < len - 1; ++i)
     {
         // Save initial state
@@ -153,15 +160,20 @@ void VisualSorter::bubble_sort_visual_stepped()
         }
     }
 
+    // Mark if done
     if (!swapped)
         m_state.method = none;
 }
 
-void VisualSorter::insertion_sort_visual_stepped(const size_t step)
+void VisualSorter::insertion_sort_visual_stepped()
 {
+    // Set up variables
     auto& vector { m_state.sortVector };
     const size_t len = vector.size();
 
+    const auto& step { m_state.nextStep };
+
+    // One sorting pass
     for (size_t j = step; j > 0 && vector.at(j - 1) > vector.at(j); --j)
     {
         // Save initial state
@@ -173,6 +185,7 @@ void VisualSorter::insertion_sort_visual_stepped(const size_t step)
         m_state.generatedSteps.push_back({ vector, { j, j - 1 }, m_properties.swappedColour });
     }
 
+    // Prepare for next step or mark as done
     if (step + 1 < len)
         m_state.nextStep = step + 1;
     else
