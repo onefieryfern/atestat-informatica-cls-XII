@@ -83,7 +83,7 @@ int main(int argc, char** argv)
     VisualSorter visualSorter { window, { backgroundColour, rectColour, selectedColour, swappedColour } };
 
     // Instantiate test vector
-    std::vector<int> vector { generateRandomVector(50, -100, 100) };
+    std::vector<int> vector { generateConsecutiveRandomVector(-10, 10) };
 
     // Start sorting
     SDL_SetWindowTitle(window.getWindow(), windowTitle.data());

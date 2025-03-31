@@ -2,6 +2,7 @@
 #include "rectangle.h"
 #include <algorithm>
 #include <cstdlib>
+#include <iostream>
 #include <random>
 #include <stdexcept>
 #include <vector>
@@ -57,6 +58,47 @@ std::vector<int> generateRandomVector(const size_t size, const int min, const in
 
     std::vector<int> vector (size);
     for (size_t i = 0; i < size; )
+    {
+        const int randomVal = die(mt);
+        if (randomVal != 0 && std::ranges::find(vector, randomVal) == vector.end())
+        {
+            vector.at(i) = randomVal;
+            ++i;
+        }
+    }
+
+    return vector;
+}
+
+/**
+ * Generates a random std::vector<int> with all consecutive ints between min and max (inclusive) where the ints do not
+ * repeat
+ *
+ * Zero (0) is excluded
+ * @param from
+ * @param to
+ * @return a filled std::vector<int>
+ */
+std::vector<int> generateConsecutiveRandomVector(int from, int to)
+{
+    if (from > to)
+    {
+        std::swap(from, to);
+        std::cerr << "Warning: generateConsecutiveRandomVector was called with from > to\n";
+    }
+
+    // Seed our Mersenne Twister
+    std::mt19937 mt{ std::random_device{}() };
+
+    // Create a reusable random number generator that generates uniform numbers between from and to
+    std::uniform_int_distribution<> die{ from, to };
+
+    size_t len { static_cast<size_t>(to - from + 1) };
+    if (from * to <= 0)
+        len--;
+
+    std::vector<int> vector (len);
+    for (size_t i = 0; i < len; )
     {
         const int randomVal = die(mt);
         if (randomVal != 0 && std::ranges::find(vector, randomVal) == vector.end())
