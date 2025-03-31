@@ -1,5 +1,6 @@
 #include "VisualSorter.h"
 #include "graphing.h"
+#include <cmath>
 
 VisualSorter::VisualSorter(RenderWindow& renderWindow, Properties properties)
     : m_renderWindow { renderWindow }
@@ -21,6 +22,10 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         break;
     case insertion:
         m_state.nextStep = 1;
+        break;
+    case comb:
+        m_state.sortingVars.resize(1);
+        m_state.sortingVars.at(0) = vector.size();
         break;
     case none:
     default:
@@ -48,6 +53,9 @@ bool VisualSorter::continueSort()
             break;
         case insertion:
             insertion_sort_visual_stepped(m_state.nextStep);
+            break;
+        case comb:
+            comb_sort_visual_stepped();
             break;
         case none:
         default:
@@ -168,5 +176,48 @@ void VisualSorter::insertion_sort_visual_stepped(const size_t step)
     if (step + 1 < len)
         m_state.nextStep = step + 1;
     else
+        m_state.method = none;
+}
+
+void VisualSorter::comb_sort_visual_stepped()
+{
+    // Set up variables
+    auto& vector { m_state.sortVector };
+    const size_t len { vector.size() };
+
+    size_t& gap { m_state.sortingVars.at(0) };
+    constexpr double shrink { 1.3 };
+    bool sorted { false };
+
+    // Find the new gap
+    gap = std::floor(static_cast<double>(gap) / shrink);
+    if (gap <= 1)
+    {
+        gap = 1;
+        sorted = true;
+    }
+    else if (gap == 9 || gap == 10)
+    {
+        gap = 11;
+    }
+
+    // One sorting pass
+    for (size_t i = 0; i + gap < len; ++i)
+    {
+        // Save initial state
+        m_state.generatedSteps.push_back({ vector, { i, i + gap }, m_properties.selectedColour });
+
+        if (vector.at(i) > vector.at(i + gap))
+        {
+            std::swap(vector.at(i), vector.at(i + gap));
+            sorted = false;
+
+            // Save new state
+            m_state.generatedSteps.push_back({ vector, { i, i + gap }, m_properties.swappedColour });
+        }
+    }
+
+    // Mark if done
+    if (sorted)
         m_state.method = none;
 }
