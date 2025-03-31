@@ -7,4 +7,6 @@
 void setRectsColour(const std::vector<std::reference_wrapper<Rectangle>>& rects, Rectangle::Colours colour);
 void longDelay(int32_t delay);
 
+std::vector<int> generateRandomVector(size_t size, int min, int max);
+
 #endif //ATESTAT_INFORMATICA_CLS_XII_UTILITY_H

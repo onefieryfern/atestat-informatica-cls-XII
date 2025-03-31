@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     }
 
     // Default properties
-    constexpr int32_t delay { 300 };
+    constexpr int32_t delay { 100 };
 
     constexpr SDL_Color backgroundColour { constants::colours::white };
     constexpr Rectangle::Colours rectColour
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
     VisualSorter visualSorter { window, { backgroundColour, rectColour, selectedColour, swappedColour } };
 
     // Instantiate test vector
-    std::vector<int> vector { 1, 6, -5, 8, 4, 2, -3, 3, -2, 7 };
+    std::vector<int> vector { generateRandomVector(50, -100, 100) };
 
     // Start sorting
     SDL_SetWindowTitle(window.getWindow(), windowTitle.data());
