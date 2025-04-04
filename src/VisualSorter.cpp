@@ -33,7 +33,10 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         m_state.sortingVars.at(1) = vector.size() - 1;
         break;
     case heapsort:
-
+        m_state.sortingVars.resize(2);
+        m_state.sortingVars.at(0) = static_cast<size_t>(std::floor(vector.size() / 2));
+        m_state.sortingVars.at(1) = vector.size();
+        break;
     case none:
     default:
         m_state.nextStep = 0;
@@ -66,6 +69,9 @@ bool VisualSorter::continueSort()
             break;
         case cocktail:
             cocktail_sort_visual_stepped();
+            break;
+        case heapsort:
+            heapsort_visual_stepped();
             break;
         case none:
         default:
@@ -310,5 +316,63 @@ void VisualSorter::cocktail_sort_visual_stepped()
 
     // Mark if done
     if (!swapped)
+        m_state.method = none;
+}
+
+void VisualSorter::heapsort_visual_stepped()
+{
+    // Set up variables
+    auto& vector { m_state.sortVector };
+    const size_t len { vector.size() };
+
+    auto& start { m_state.sortingVars.at(0) };
+    auto& end { m_state.sortingVars.at(1) };
+
+    if (end > 1)
+    {
+        if (start > 0)
+            --start;
+        else
+        {
+            --end;
+
+            // Save initial state
+            m_state.generatedSteps.push_back({ vector, { end, 0 }, m_properties.selectedColour });
+
+            std::swap(vector.at(end), vector.at(0));
+
+            // Save new state
+            m_state.generatedSteps.push_back({vector, {end, 0}, m_properties.swappedColour});
+        }
+
+        for (size_t root { start }; 2 * root + 1 < end; )
+        {
+            size_t child { 2 * root + 1 };
+
+            // Save initial state
+            m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.selectedColour });
+
+            if (child + 1 < end && vector.at(child) < vector.at(child + 1))
+                ++child;
+
+            // Save new initial state
+            m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.selectedColour });
+
+            if (vector.at(root) < vector.at(child))
+            {
+                std::swap(vector.at(root), vector.at(child));
+
+                // Save new state
+                m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.swappedColour });
+
+                root = child;
+            }
+            else
+                break;
+        }
+    }
+
+    // Mark if done
+    if (end <= 1)
         m_state.method = none;
 }
