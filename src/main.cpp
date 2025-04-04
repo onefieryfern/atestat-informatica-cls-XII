@@ -29,11 +29,11 @@ int main(int argc, char** argv)
 
     constexpr SDL_Color backgroundColour { constants::colours::white };
     constexpr Rectangle::Colours rectColour
-        { { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE }, constants::colours::none };
+        { constants::colours::html::slateGrey, constants::colours::none };
     constexpr Rectangle::Colours selectedColour
-        { { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE }, constants::colours::none };
+        { constants::colours::html::dodgerBlue, constants::colours::none };
     constexpr Rectangle::Colours swappedColour
-        { { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE }, constants::colours::none };
+        { constants::colours::html::crimson, constants::colours::none };
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
