@@ -15,6 +15,8 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
     m_state.sortVector = vector;
     m_state.method = method;
 
+    const size_t len { vector.size() };
+
     switch (m_state.method)
     {
     case selection:
@@ -25,17 +27,17 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         break;
     case comb:
         m_state.sortingVars.resize(1);
-        m_state.sortingVars.at(0) = vector.size();
+        m_state.sortingVars.at(0) = len;
         break;
     case cocktail:
         m_state.sortingVars.resize(2);
         m_state.sortingVars.at(0) = 0;
-        m_state.sortingVars.at(1) = vector.size() - 1;
+        m_state.sortingVars.at(1) = len - 1;
         break;
     case heapsort:
         m_state.sortingVars.resize(2);
-        m_state.sortingVars.at(0) = static_cast<size_t>(std::floor(vector.size() / 2));
-        m_state.sortingVars.at(1) = vector.size();
+        m_state.sortingVars.at(0) = static_cast<size_t>(std::floor(len / 2));
+        m_state.sortingVars.at(1) = len;
         break;
     case none:
     default:
