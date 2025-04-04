@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     const std::string_view subcommand { argv[1] };
     if (subcommand == "help"sv)
     {
-        std::cout << "Possible commands: help, selection, bubble, insertion, comb\n";
+        std::cout << "Possible commands: help, selection, bubble, insertion, comb, cocktail\n";
         return 0;
     }
 
@@ -72,6 +72,11 @@ int main(int argc, char** argv)
     {
         windowTitle = "Comb Sort"sv;
         sortingMethod = VisualSorter::comb;
+    }
+    else if (subcommand == "cocktail"sv)
+    {
+        windowTitle = "Cocktail Shaker Sort"sv;
+        sortingMethod = VisualSorter::cocktail;
     }
     else
     {

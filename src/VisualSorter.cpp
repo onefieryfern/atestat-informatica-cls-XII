@@ -27,6 +27,13 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         m_state.sortingVars.resize(1);
         m_state.sortingVars.at(0) = vector.size();
         break;
+    case cocktail:
+        m_state.sortingVars.resize(2);
+        m_state.sortingVars.at(0) = 0;
+        m_state.sortingVars.at(1) = vector.size() - 1;
+        break;
+    case heapsort:
+
     case none:
     default:
         m_state.nextStep = 0;
@@ -56,6 +63,9 @@ bool VisualSorter::continueSort()
             break;
         case comb:
             comb_sort_visual_stepped();
+            break;
+        case cocktail:
+            cocktail_sort_visual_stepped();
             break;
         case none:
         default:
@@ -232,5 +242,73 @@ void VisualSorter::comb_sort_visual_stepped()
 
     // Mark if done
     if (sorted)
+        m_state.method = none;
+}
+
+void VisualSorter::cocktail_sort_visual_stepped()
+{
+    // Set up variables
+    auto& vector { m_state.sortVector };
+
+    auto& start { m_state.sortingVars.at(0) };
+    auto& end { m_state.sortingVars.at(1) };
+
+    // One forward sorting pass
+    bool swapped { false };
+    for (size_t i = start; i < end; ++i)
+    {
+        // Save initial state
+        m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.selectedColour });
+
+        int& current { vector.at(i) };
+        int& next { vector.at(i + 1) };
+
+        if (current > next)
+        {
+            std::swap(current, next);
+            swapped = true;
+
+            // Save new state
+            m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.swappedColour });
+        }
+    }
+
+    --end;
+
+    // Mark if done (early)
+    if (!swapped)
+    {
+        m_state.method = none;
+        return;
+    }
+
+    // One backward sorting pass
+    swapped = false;
+    for (size_t i = end - 1; i >= start; --i)
+    {
+        // Save initial state
+        m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.selectedColour });
+
+        int& current { vector.at(i) };
+        int& next { vector.at(i + 1) };
+
+        if (current > next)
+        {
+            std::swap(current, next);
+            swapped = true;
+
+            // Save new state
+            m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.swappedColour });
+        }
+
+        // Start might be equal to 0 but cannot use i >= 0 as condition with size_t
+        if (i == 0)
+            break;
+    }
+
+    ++start;
+
+    // Mark if done
+    if (!swapped)
         m_state.method = none;
 }

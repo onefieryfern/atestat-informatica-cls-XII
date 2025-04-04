@@ -9,7 +9,7 @@
 class VisualSorter
 {
 public:
-    enum SortingMethod { none, selection, bubble, insertion, comb };
+    enum SortingMethod { none, selection, bubble, insertion, comb, cocktail };
 
     struct Properties
     {
@@ -48,6 +48,7 @@ private:
     void bubble_sort_visual_stepped();
     void insertion_sort_visual_stepped();
     void comb_sort_visual_stepped();
+    void cocktail_sort_visual_stepped();
 
 public:
     VisualSorter(RenderWindow& renderWindow, Properties properties);
