@@ -30,9 +30,8 @@ public:
     {
         SortingMethod method { none };
         std::vector<int> sortVector {};
-        std::vector<SortingStep> generatedSteps {};
         std::vector<size_t> sortingVars {};
-        size_t nextStep {};
+        std::vector<SortingStep> generatedSteps {};
     };
 
 private:
