@@ -22,7 +22,7 @@ std::vector<Rectangle> getRectsFromIntVector(SDL_Renderer *renderer, const std::
     const size_t len { vector.size() };
 
     // Calculate the padding between rectangles
-    const float padding { (outputWidth / static_cast<float>(len)) * 0.05f }; // in pixels
+    const float padding { std::max(1.0f, (outputWidth / static_cast<float>(len)) * 0.05f) }; // in pixels
     const float totalPadding { static_cast<float>(len - 1) * padding };
 
     // Calculate the width of a rectangle, with padding in mind
