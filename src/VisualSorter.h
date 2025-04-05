@@ -3,6 +3,7 @@
 
 #include "rectangle.h"
 #include "render.h"
+#include <array>
 #include <vector>
 
 class VisualSorter
@@ -10,18 +11,11 @@ class VisualSorter
 public:
     enum SortingMethod { none, selection, bubble, insertion, comb, cocktail, heapsort };
 
-    struct Properties
-    {
-        Rectangle::Colours rectColour { constants::colours::black, constants::colours::none };
-        Rectangle::Colours selectedColour { constants::colours::blue, constants::colours::none };
-        Rectangle::Colours swappedColour { constants::colours::red, constants::colours::none };
-    };
-
     struct SortingStep
     {
         std::vector<int> sortVector {};
-        std::vector<size_t> highlightIndexes {};
-        Rectangle::Colours highlightColour {};
+        std::vector<std::vector<size_t>> highlightIndexes {};
+        std::vector<Rectangle::Colours> highlightColours {};
     };
 
     struct State
@@ -34,8 +28,16 @@ public:
 
 private:
     RenderWindow& m_renderWindow;
-    Properties m_properties;
     State m_state;
+
+    enum ColourIndex { rectDefault, selected, actedOn, auxiliary };
+    std::array<Rectangle::Colours, 4> m_colours
+    {
+        Rectangle::Colours{ constants::colours::black, constants::colours::none },
+        Rectangle::Colours{ constants::colours::blue, constants::colours::none },
+        Rectangle::Colours{ constants::colours::red, constants::colours::none },
+        Rectangle::Colours{ constants::colours::green, constants::colours::none }
+    };
 
     bool continueSort();
     bool areRectsAvailable() const;
@@ -49,7 +51,14 @@ private:
     void heapsort_visual_stepped();
 
 public:
-    VisualSorter(RenderWindow& renderWindow, Properties properties);
+    VisualSorter
+    (
+        RenderWindow& renderWindow,
+        Rectangle::Colours rectDefaultColour,
+        Rectangle::Colours selectedColour,
+        Rectangle::Colours actedOnColour,
+        Rectangle::Colours auxiliaryColour
+    );
 
     void startSort(const std::vector<int>& vector, SortingMethod method);
     bool hasSortFinished() const;

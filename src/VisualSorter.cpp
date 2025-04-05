@@ -1,12 +1,18 @@
 #include "VisualSorter.h"
 #include "graphing.h"
+#include "utility.h"
 #include <cmath>
 
-VisualSorter::VisualSorter(RenderWindow& renderWindow, Properties properties)
-    : m_renderWindow { renderWindow }
-{
-    m_properties = properties;
-}
+VisualSorter::VisualSorter
+    (
+        RenderWindow& renderWindow,
+        const Rectangle::Colours rectDefaultColour,
+        const Rectangle::Colours selectedColour,
+        const Rectangle::Colours actedOnColour,
+        const Rectangle::Colours auxiliaryColour
+    )
+    : m_renderWindow { renderWindow }, m_colours { rectDefaultColour, selectedColour, actedOnColour, auxiliaryColour }
+    {}
 
 void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod method)
 {
@@ -110,11 +116,9 @@ std::vector<Rectangle> VisualSorter::getNextStepRects()
 
     SortingStep& firstInQueue { m_state.generatedSteps.at(0) };
     std::vector<Rectangle> generatedSteps =
-        getRectsFromIntVector(m_renderWindow.getRenderer(), firstInQueue.sortVector, m_properties.rectColour);
-    for (const auto highlightedIndex : firstInQueue.highlightIndexes)
-    {
-        generatedSteps.at(highlightedIndex).setColours(firstInQueue.highlightColour);
-    }
+        getRectsFromIntVector(m_renderWindow.getRenderer(), firstInQueue.sortVector, m_colours.at(rectDefault));
+
+    highlightRects(generatedSteps, firstInQueue.highlightIndexes, firstInQueue.highlightColours);
 
     m_state.generatedSteps.erase(m_state.generatedSteps.begin());
     return generatedSteps;
@@ -132,7 +136,7 @@ void VisualSorter::selection_sort_visual_stepped()
     for (size_t j = step + 1; j < len; ++j)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { step, j }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ step, j }}, { m_colours.at(selected) } });
 
         int& current { vector.at(step) };
         int& next { vector.at(j) };
@@ -142,7 +146,7 @@ void VisualSorter::selection_sort_visual_stepped()
             std::swap(current, next);
 
             // Save new state
-            m_state.generatedSteps.push_back({ vector, { step, j }, m_properties.swappedColour });
+            m_state.generatedSteps.push_back({ vector, {{ step, j }}, { m_colours.at(actedOn) } });
         }
     }
 
@@ -165,7 +169,7 @@ void VisualSorter::bubble_sort_visual_stepped()
     for (size_t i = 0; i < len - 1; ++i)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(selected) } });
 
         int& current { vector.at(i) };
         int& next { vector.at(i + 1) };
@@ -176,7 +180,7 @@ void VisualSorter::bubble_sort_visual_stepped()
             std::swap(current, next);
 
             // Save new state
-            m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.swappedColour });
+            m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(actedOn) } });
         }
     }
 
@@ -197,12 +201,12 @@ void VisualSorter::insertion_sort_visual_stepped()
     for (size_t j = step; j > 0 && vector.at(j - 1) > vector.at(j); --j)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { j, j - 1 }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ j, j - 1 }}, { m_colours.at(selected) } });
 
         std::swap(vector.at(j), vector.at(j - 1));
 
         // Save new state
-        m_state.generatedSteps.push_back({ vector, { j, j - 1 }, m_properties.swappedColour });
+        m_state.generatedSteps.push_back({ vector, {{ j, j - 1 }}, { m_colours.at(actedOn) } });
     }
 
     // Prepare for next step or mark as done
@@ -238,7 +242,7 @@ void VisualSorter::comb_sort_visual_stepped()
     for (size_t i = 0; i + gap < len; ++i)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { i, i + gap }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ i, i + gap }}, { m_colours.at(selected) } });
 
         if (vector.at(i) > vector.at(i + gap))
         {
@@ -246,7 +250,7 @@ void VisualSorter::comb_sort_visual_stepped()
             sorted = false;
 
             // Save new state
-            m_state.generatedSteps.push_back({ vector, { i, i + gap }, m_properties.swappedColour });
+            m_state.generatedSteps.push_back({ vector, {{ i, i + gap }}, { m_colours.at(actedOn) } });
         }
     }
 
@@ -268,7 +272,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
     for (size_t i = start; i < end; ++i)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(selected) } });
 
         int& current { vector.at(i) };
         int& next { vector.at(i + 1) };
@@ -279,7 +283,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
             swapped = true;
 
             // Save new state
-            m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.swappedColour });
+            m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(actedOn) } });
         }
     }
 
@@ -297,7 +301,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
     for (size_t i = end - 1; i >= start; --i)
     {
         // Save initial state
-        m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.selectedColour });
+        m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(selected) } });
 
         int& current { vector.at(i) };
         int& next { vector.at(i + 1) };
@@ -308,7 +312,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
             swapped = true;
 
             // Save new state
-            m_state.generatedSteps.push_back({ vector, { i, i + 1 }, m_properties.swappedColour });
+            m_state.generatedSteps.push_back({ vector, {{ i, i + 1 }}, { m_colours.at(actedOn) } });
         }
 
         // Start might be equal to 0 but cannot use i >= 0 as condition with size_t
@@ -341,33 +345,37 @@ void VisualSorter::heapsort_visual_stepped()
             --end;
 
             // Save initial state
-            m_state.generatedSteps.push_back({ vector, { end, 0 }, m_properties.selectedColour });
+            m_state.generatedSteps.push_back({ vector, {{ end, 0 }}, { m_colours.at(selected) } });
 
             std::swap(vector.at(end), vector.at(0));
 
             // Save new state
-            m_state.generatedSteps.push_back({vector, {end, 0}, m_properties.swappedColour});
+            m_state.generatedSteps.push_back({ vector, {{ end, 0 }}, { m_colours.at(actedOn) } });
         }
 
         for (size_t root { start }; 2 * root + 1 < end; )
         {
             size_t child { 2 * root + 1 };
 
+            // Save current heap indexes in a vector to be highlighted later
+            std::vector<size_t> heapIndexes {};
+            for (size_t i = start; i < end; ++i) heapIndexes.push_back(i);
+
             // Save initial state
-            m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.selectedColour });
+            m_state.generatedSteps.push_back({ vector, { heapIndexes, { root, child } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
 
             if (child + 1 < end && vector.at(child) < vector.at(child + 1))
                 ++child;
 
             // Save new initial state
-            m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.selectedColour });
+            m_state.generatedSteps.push_back({ vector, { heapIndexes, { root, child } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
 
             if (vector.at(root) < vector.at(child))
             {
                 std::swap(vector.at(root), vector.at(child));
 
                 // Save new state
-                m_state.generatedSteps.push_back({ vector, { root, child }, m_properties.swappedColour });
+                m_state.generatedSteps.push_back({ vector, { heapIndexes, { root, child } }, { m_colours.at(auxiliary), m_colours.at(actedOn) } });
 
                 root = child;
             }

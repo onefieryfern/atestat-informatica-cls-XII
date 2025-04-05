@@ -34,6 +34,8 @@ int main(int argc, char** argv)
         { constants::colours::html::dodgerBlue, constants::colours::none };
     constexpr Rectangle::Colours swappedColour
         { constants::colours::html::crimson, constants::colours::none };
+    constexpr Rectangle::Colours auxiliaryColour
+        { constants::colours::html::mediumSeaGreen, constants::colours::none };
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
@@ -90,7 +92,7 @@ int main(int argc, char** argv)
     }
 
     // Instantiate visual sorter
-    VisualSorter visualSorter { window, { backgroundColour, rectColour, selectedColour, swappedColour } };
+    VisualSorter visualSorter { window, rectColour, selectedColour, swappedColour, auxiliaryColour };
 
     // Instantiate test vector
     std::vector<int> vector { generateConsecutiveRandomVector(-10, 10) };

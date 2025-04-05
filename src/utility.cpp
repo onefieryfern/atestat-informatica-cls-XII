@@ -8,16 +8,37 @@
 #include <vector>
 
 /**
- * Sets the colours specified for multiple rects. Meant to simplify code when setting the same colour for a few rects,
- * if you already have a rectangle vector, it is not recommended to use this function, as it copies the array
- * @param rects the rects to colour.
- * @param colour
+ * Applies layered highlighting to rectangles
+ *
+ * This function assumes the indexes provided are valid, but bounds checking is also done by std::vector::at
+ *
+ * @param rects the rects to highlight
+ * @param highlightIndexes a vector of vectors, each holding the indexes of the rectangles to be coloured with the
+ * corresponding colour from highlightColours, ordered from the lowest to the highest layer
+ * @param highlightColours a vector of the colours to highlight the rectangles with, if its size does not match
+ * highlightIndexes' size, the first colour will be used for all highlighting done
  */
-void setRectsColour(const std::vector<std::reference_wrapper<Rectangle>>& rects, const Rectangle::Colours colour)
+void highlightRects
+    (
+        std::vector<Rectangle>& rects,
+        const std::vector<std::vector<size_t>>& highlightIndexes,
+        const std::vector<Rectangle::Colours>& highlightColours
+    )
 {
-    for (auto& rectReference : rects)
+    const bool firstColourOnly { highlightColours.size() < highlightIndexes.size() };
+    if (firstColourOnly)
+        std::cerr << "Warning: highlightRects was provided with multiple vectors of indexes and not enough colours\n";
+
+    const size_t len { highlightIndexes.size() };
+    for (size_t i = 0; i < len; ++i)
     {
-        rectReference.get().setColours(colour);
+        auto& currentIndexes { highlightIndexes.at(i) };
+        const Rectangle::Colours currentColour { firstColourOnly ? highlightColours.at(0) : highlightColours.at(i) };
+
+        for (const auto index : currentIndexes)
+        {
+            rects.at(index).setColours(currentColour);
+        }
     }
 }
 

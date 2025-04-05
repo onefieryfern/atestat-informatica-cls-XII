@@ -4,7 +4,13 @@
 #include "rectangle.h"
 #include <vector>
 
-void setRectsColour(const std::vector<std::reference_wrapper<Rectangle>>& rects, Rectangle::Colours colour);
+void highlightRects
+    (
+        std::vector<Rectangle>& rects,
+        const std::vector<std::vector<size_t>>& highlightIndexes,
+        const std::vector<Rectangle::Colours>& highlightColours
+    );
+
 void longDelay(int32_t delay);
 
 std::vector<int> generateRandomVector(size_t size, int min, int max);

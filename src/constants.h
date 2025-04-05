@@ -20,6 +20,7 @@ namespace constants
             constexpr SDL_Color slateGrey { 0x70, 0x80, 0x90, SDL_ALPHA_OPAQUE };
             constexpr SDL_Color dodgerBlue { 0x1e, 0x90, 0xff, SDL_ALPHA_OPAQUE };
             constexpr SDL_Color crimson { 0xdc, 0x14, 0x3c, SDL_ALPHA_OPAQUE };
+            constexpr SDL_Color mediumSeaGreen { 0x3c, 0xb3, 0x71, SDL_ALPHA_OPAQUE };
         }
     }
 }
