@@ -3,7 +3,6 @@
 
 #include "rectangle.h"
 #include "render.h"
-#include <SDL3/SDL.h>
 #include <vector>
 
 class VisualSorter
@@ -13,7 +12,6 @@ public:
 
     struct Properties
     {
-        SDL_Color backgroundColour { constants::colours::white };
         Rectangle::Colours rectColour { constants::colours::black, constants::colours::none };
         Rectangle::Colours selectedColour { constants::colours::blue, constants::colours::none };
         Rectangle::Colours swappedColour { constants::colours::red, constants::colours::none };
