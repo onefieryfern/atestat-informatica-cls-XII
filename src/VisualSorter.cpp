@@ -16,7 +16,7 @@ VisualSorter::VisualSorter
 
 void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod method)
 {
-    cleanBeforeSort();
+    m_state = {};
 
     m_state.sortVector = vector;
     m_state.method = method;
@@ -100,12 +100,6 @@ bool VisualSorter::hasSortFinished() const
 bool VisualSorter::areRectsAvailable() const
 {
     return !m_state.generatedSteps.empty();
-}
-
-void VisualSorter::cleanBeforeSort()
-{
-    m_state.generatedSteps.clear();
-    m_state.sortingVars.clear();
 }
 
 std::vector<Rectangle> VisualSorter::getNextStepRects()

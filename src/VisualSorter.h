@@ -41,7 +41,6 @@ private:
 
     bool continueSort();
     bool areRectsAvailable() const;
-    void cleanBeforeSort();
 
     void selection_sort_visual_stepped();
     void bubble_sort_visual_stepped();
