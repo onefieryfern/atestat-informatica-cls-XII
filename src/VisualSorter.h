@@ -4,6 +4,7 @@
 #include "rectangle.h"
 #include "render.h"
 #include <array>
+#include <queue>
 #include <vector>
 
 class VisualSorter
@@ -23,7 +24,7 @@ public:
         SortingMethod method { none };
         std::vector<int> sortVector {};
         std::vector<size_t> sortingVars {};
-        std::vector<SortingStep> generatedSteps {};
+        std::queue<SortingStep> generatedSteps {};
     };
 
 private:
@@ -61,7 +62,7 @@ public:
 
     void startSort(const std::vector<int>& vector, SortingMethod method);
     bool hasSortFinished() const;
-    std::vector<Rectangle> getNextStepRects();
+    std::vector<Rectangle> getCurrentStepRects();
 };
 
 #endif //ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
