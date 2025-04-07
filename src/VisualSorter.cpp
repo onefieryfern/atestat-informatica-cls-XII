@@ -197,12 +197,12 @@ void VisualSorter::insertion_sort_visual_stepped()
         const size_t iNext { j - 1 };
 
         // Save initial state
-        m_state.generatedSteps.push({ vector, {{ j, iNext }}, { m_colours.at(selected) } });
+        m_state.generatedSteps.push({ vector, { { step }, { j, iNext } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
 
         std::swap(vector.at(j), vector.at(iNext));
 
         // Save new state
-        m_state.generatedSteps.push({ vector, {{ j, iNext }}, { m_colours.at(actedOn) } });
+        m_state.generatedSteps.push({ vector, { { step }, { j, iNext } }, { m_colours.at(auxiliary), m_colours.at(actedOn) } });
     }
 
     // Prepare for next step or mark as done
@@ -265,6 +265,10 @@ void VisualSorter::cocktail_sort_visual_stepped()
     auto& start { m_state.sortingVars.at(0) };
     auto& end { m_state.sortingVars.at(1) };
 
+    // Save current working indexes in a vector to be highlighted later
+    std::vector<size_t> workingIndexes {};
+    for (size_t i = start; i <= end; ++i) workingIndexes.push_back(i);
+
     // One forward sorting pass
     bool swapped { false };
     for (size_t i = start; i < end; ++i)
@@ -272,7 +276,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
         const size_t iNext { i + 1 };
 
         // Save initial state
-        m_state.generatedSteps.push({ vector, {{ i, iNext }}, { m_colours.at(selected) } });
+        m_state.generatedSteps.push({ vector, { workingIndexes, { i, iNext }}, { m_colours.at(auxiliary), m_colours.at(selected) } });
 
         if (int &current = vector.at(i), &next = vector.at(iNext); current > next)
         {
@@ -280,11 +284,12 @@ void VisualSorter::cocktail_sort_visual_stepped()
             swapped = true;
 
             // Save new state
-            m_state.generatedSteps.push({ vector, {{ i, iNext }}, { m_colours.at(actedOn) } });
+            m_state.generatedSteps.push({ vector, { workingIndexes, { i, iNext }}, { m_colours.at(auxiliary), m_colours.at(actedOn) } });
         }
     }
 
     --end;
+    workingIndexes.pop_back();
 
     // Mark if done (early)
     if (!swapped)
@@ -300,7 +305,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
         const size_t iNext { i + 1 };
 
         // Save initial state
-        m_state.generatedSteps.push({ vector, {{ i, iNext }}, { m_colours.at(selected) } });
+        m_state.generatedSteps.push({ vector, { workingIndexes, { i, iNext }}, { m_colours.at(auxiliary), m_colours.at(selected) } });
 
         if (int &current = vector.at(i), &next = vector.at(iNext); current > next)
         {
@@ -308,7 +313,7 @@ void VisualSorter::cocktail_sort_visual_stepped()
             swapped = true;
 
             // Save new state
-            m_state.generatedSteps.push({ vector, {{ i, iNext }}, { m_colours.at(actedOn) } });
+            m_state.generatedSteps.push({ vector, { workingIndexes, { i, iNext }}, { m_colours.at(auxiliary), m_colours.at(actedOn) } });
         }
 
         // Start might be equal to 0 but cannot use i >= 0 as condition with size_t
