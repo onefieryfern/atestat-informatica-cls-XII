@@ -17,46 +17,51 @@ VisualSorter::VisualSorter
 
 void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod method)
 {
+    // Clear any leftover data
     m_state = {};
 
+    // Set internal state
     m_state.sortVector = vector;
     m_state.method = method;
 
+    // Set algorithm-specific internal state
     const size_t len { vector.size() };
+    auto& sortingVars { m_state.sortingVars };
 
     switch (m_state.method)
     {
     case selection:
-        m_state.sortingVars.resize(1);
-        m_state.sortingVars.at(0) = 0;
+        sortingVars.resize(1);
+        sortingVars.at(0) = 0;
         break;
     case insertion:
-        m_state.sortingVars.resize(1);
-        m_state.sortingVars.at(0) = 1;
+        sortingVars.resize(1);
+        sortingVars.at(0) = 1;
         break;
     case comb:
-        m_state.sortingVars.resize(1);
-        m_state.sortingVars.at(0) = len;
+        sortingVars.resize(1);
+        sortingVars.at(0) = len;
         break;
     case cocktail:
-        m_state.sortingVars.resize(2);
-        m_state.sortingVars.at(0) = 0;
-        m_state.sortingVars.at(1) = len - 1;
+        sortingVars.resize(2);
+        sortingVars.at(0) = 0;
+        sortingVars.at(1) = len - 1;
         break;
     case heapsort:
-        m_state.sortingVars.resize(2);
-        m_state.sortingVars.at(0) = static_cast<size_t>(std::floor(len / 2));
-        m_state.sortingVars.at(1) = len;
+        sortingVars.resize(2);
+        sortingVars.at(0) = static_cast<size_t>(std::floor(len / 2));
+        sortingVars.at(1) = len;
         break;
     case quicksort:
-        m_state.sortingVars.resize(2);
-        m_state.sortingVars.at(0) = len - 1; // hi
-        m_state.sortingVars.at(1) = 0; // lo
+        sortingVars.resize(2);
+        sortingVars.at(0) = len - 1; // hi
+        sortingVars.at(1) = 0; // lo
     case none:
     default:
         ;
     }
 
+    // Start sorting
     continueSort();
 }
 
