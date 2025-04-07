@@ -105,7 +105,7 @@ int main(int argc, char** argv)
     while (!visualSorter.hasSortFinished())
     {
         window.blank(backgroundColour);
-        Rectangle::drawRects(window.getRenderer(), visualSorter.getNextStepRects());
+        Rectangle::drawRects(window.getRenderer(), visualSorter.getCurrentStepRects());
         window.renderPresent();
 
         longDelay(delay);
