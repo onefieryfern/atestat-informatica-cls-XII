@@ -56,6 +56,7 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         sortingVars.resize(2);
         sortingVars.at(0) = len - 1; // hi
         sortingVars.at(1) = 0; // lo
+        break;
     case none:
     default:
         ;
