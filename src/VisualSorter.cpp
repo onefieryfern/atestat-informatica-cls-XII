@@ -47,12 +47,12 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         sortingVars.at(0) = 0;
         sortingVars.at(1) = len - 1;
         break;
-    case heapsort:
+    case heap:
         sortingVars.resize(2);
         sortingVars.at(0) = static_cast<size_t>(std::floor(len / 2));
         sortingVars.at(1) = len;
         break;
-    case quicksort:
+    case quick:
         sortingVars.resize(2);
         sortingVars.at(0) = len - 1; // hi
         sortingVars.at(1) = 0; // lo
@@ -95,10 +95,10 @@ bool VisualSorter::continueSort()
         case cocktail:
             cocktail_sort_visual_stepped();
             break;
-        case heapsort:
+        case heap:
             heapsort_visual_stepped();
             break;
-        case quicksort:
+        case quick:
             quicksort_visual_stepped();
             break;
         case cycle:

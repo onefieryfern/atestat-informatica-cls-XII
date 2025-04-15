@@ -20,7 +20,7 @@ int main(int argc, char** argv)
     const std::string_view subcommand { argv[1] };
     if (subcommand == "help"sv)
     {
-        std::cout << "Possible commands: help, selection, bubble, insertion, comb, cocktail, heapsort, quicksort, cycle\n";
+        std::cout << "Possible commands: help, selection, bubble, insertion, comb, cocktail, heap, quick, cycle\n";
         return 0;
     }
 
@@ -80,15 +80,15 @@ int main(int argc, char** argv)
         windowTitle = "Cocktail Shaker Sort"sv;
         sortingMethod = VisualSorter::cocktail;
     }
-    else if (subcommand == "heapsort"sv)
+    else if (subcommand == "heap"sv)
     {
         windowTitle = "Heapsort"sv;
-        sortingMethod = VisualSorter::heapsort;
+        sortingMethod = VisualSorter::heap;
     }
-    else if (subcommand == "quicksort"sv)
+    else if (subcommand == "quick"sv)
     {
         windowTitle = "Quicksort"sv;
-        sortingMethod = VisualSorter::quicksort;
+        sortingMethod = VisualSorter::quick;
     }
     else if (subcommand == "cycle"sv)
     {

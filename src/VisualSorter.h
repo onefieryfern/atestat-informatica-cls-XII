@@ -10,7 +10,7 @@
 class VisualSorter
 {
 public:
-    enum SortingMethod { none, selection, bubble, insertion, comb, cocktail, heapsort, quicksort, cycle };
+    enum SortingMethod { none, selection, bubble, insertion, comb, cocktail, heap, quick, cycle };
 
     struct SortingStep
     {
