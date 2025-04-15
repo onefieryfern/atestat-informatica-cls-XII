@@ -57,6 +57,10 @@ void VisualSorter::startSort(const std::vector<int>& vector, SortingMethod metho
         sortingVars.at(0) = len - 1; // hi
         sortingVars.at(1) = 0; // lo
         break;
+    case cycle:
+        sortingVars.resize(1);
+        sortingVars.at(0) = 0;
+        break;
     case none:
     default:
         ;
@@ -96,6 +100,9 @@ bool VisualSorter::continueSort()
             break;
         case quicksort:
             quicksort_visual_stepped();
+            break;
+        case cycle:
+            cycle_sort_visual_stepped();
             break;
         case none:
         default:
@@ -487,3 +494,108 @@ void VisualSorter::quicksort_visual_stepped()
         stack.pop();
     }
 }
+
+void VisualSorter::cycle_sort_visual_stepped()
+{
+    // Set up variables
+    auto& vector { m_state.sortVector };
+    const size_t len { vector.size() };
+
+    auto& cycleStart { m_state.sortingVars.at(0) };
+
+    // One sorting pass
+    size_t itemIndex { cycleStart };
+    size_t newIndex { cycleStart };
+
+    for (size_t i = cycleStart + 1; i < len; ++i)
+    {
+        // Save initial state
+        m_state.generatedSteps.push({ vector, {{ itemIndex, newIndex }, { i } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+
+        if (vector.at(i) < vector.at(itemIndex))
+        {
+            ++newIndex;
+
+            // Save new state
+            m_state.generatedSteps.push({ vector, {{ itemIndex, newIndex }, { i } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+        }
+    }
+
+    // Check if cycle is already complete
+    if (newIndex == cycleStart)
+    {
+        if (cycleStart + 1 < len - 1)
+            ++cycleStart;
+        else
+            m_state.method = none;
+
+        return;
+    }
+
+    while (vector.at(itemIndex) == vector.at(newIndex))
+    {
+        // Save initial state
+        m_state.generatedSteps.push({ vector, { { itemIndex }, {newIndex } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+
+        ++newIndex;
+
+        // Save new state
+        m_state.generatedSteps.push({ vector, { { itemIndex }, {newIndex } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+    }
+
+    // Save initial state
+    m_state.generatedSteps.push({ vector, { { itemIndex, newIndex } }, { m_colours.at(selected) } });
+
+    std::swap(vector.at(newIndex), vector.at(itemIndex));
+
+    // Save new state
+    m_state.generatedSteps.push({ vector, { { itemIndex, newIndex } }, { m_colours.at(actedOn) } });
+
+    // Save initial state
+    m_state.generatedSteps.push({ vector, { { cycleStart, newIndex } }, { m_colours.at(auxiliary) } });
+    while (newIndex != cycleStart)
+    {
+        newIndex = cycleStart;
+        for (size_t i = cycleStart + 1; i < len; ++i)
+        {
+            // Save initial state
+            m_state.generatedSteps.push({ vector, {{ itemIndex, newIndex }, { i } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+
+            if (vector.at(i) < vector.at(itemIndex))
+            {
+                ++newIndex;
+
+                // Save new state
+                m_state.generatedSteps.push({ vector, {{ itemIndex, newIndex }, { i } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+            }
+        }
+        if (newIndex != cycleStart)
+        {
+            while (vector.at(itemIndex) == vector.at(newIndex))
+            {
+                // Save initial state
+                m_state.generatedSteps.push({ vector, { { itemIndex }, { newIndex } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+
+                ++newIndex;
+
+                // Save new state
+                m_state.generatedSteps.push({ vector, { { itemIndex }, { newIndex } }, { m_colours.at(auxiliary), m_colours.at(selected) } });
+            }
+        }
+
+        // Save initial state
+        m_state.generatedSteps.push({ vector, { { itemIndex, newIndex } }, { m_colours.at(selected) } });
+
+        std::swap(vector.at(newIndex), vector.at(itemIndex));
+
+        // Save new state
+        m_state.generatedSteps.push({ vector, { { itemIndex, newIndex } }, { m_colours.at(actedOn) } });
+    }
+
+    // Prepare for next step or mark as done
+    if (cycleStart + 1 < len - 1)
+        ++cycleStart;
+    else
+        m_state.method = none;
+}
+
