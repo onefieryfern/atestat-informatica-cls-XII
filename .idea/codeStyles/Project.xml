@@ -4,6 +4,10 @@
       <option name="NAMESPACE_BRACE_PLACEMENT" value="5" />
       <option name="FUNCTION_BRACE_PLACEMENT" value="5" />
       <option name="BLOCK_BRACE_PLACEMENT" value="5" />
+      <option name="SPACE_BEFORE_INIT_LIST" value="true" />
     </Objective-C>
+    <codeStyleSettings language="ObjectiveC">
+      <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
+    </codeStyleSettings>
   </code_scheme>
 </component>
