@@ -3,7 +3,6 @@
 
 #include "Rectangle.h"
 #include "RenderWindow.h"
-#include <array>
 #include <queue>
 #include <vector>
 
@@ -27,21 +26,21 @@ public:
         std::queue<SortingStep> generatedSteps {};
     };
 
+    struct BarColours
+    {
+        Rectangle::Colour main { constants::colours::black, constants::colours::none };
+        Rectangle::Colour selected { constants::colours::blue, constants::colours::none };
+        Rectangle::Colour actedOn { constants::colours::red, constants::colours::none };
+        Rectangle::Colour auxiliary { constants::colours::green, constants::colours::none };
+    };
+
 private:
     RenderWindow& m_renderWindow;
     State m_state;
-
-    enum ColourIndex { rectDefault, selected, actedOn, auxiliary };
-    std::array<Rectangle::Colour, 4> m_colours
-    {
-        Rectangle::Colour{ constants::colours::black, constants::colours::none },
-        Rectangle::Colour{ constants::colours::blue, constants::colours::none },
-        Rectangle::Colour{ constants::colours::red, constants::colours::none },
-        Rectangle::Colour{ constants::colours::green, constants::colours::none }
-    };
+    BarColours m_barColours {};
 
     bool continueSort();
-    bool areRectsAvailable() const;
+    [[nodiscard]] bool areRectsAvailable() const;
 
     void selection_sort_visual_stepped();
     void bubble_sort_visual_stepped();
@@ -53,17 +52,10 @@ private:
     void cycle_sort_visual_stepped();
 
 public:
-    VisualSorter
-    (
-        RenderWindow& renderWindow,
-        Rectangle::Colour rectDefaultColour,
-        Rectangle::Colour selectedColour,
-        Rectangle::Colour actedOnColour,
-        Rectangle::Colour auxiliaryColour
-    );
+    explicit VisualSorter(RenderWindow& renderWindow, const BarColours& barColours);
 
     void startSort(const std::vector<int>& vector, SortingMethod method);
-    bool hasSortFinished() const;
+    [[nodiscard]] bool hasSortFinished() const;
     std::vector<Rectangle> getCurrentStepRects();
 };
 

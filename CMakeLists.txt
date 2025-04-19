@@ -17,12 +17,20 @@ add_executable(atestat_informatica_cls_XII src/main.cpp
         src/RenderWindow.cpp
         src/RenderWindow.h
         src/constants.h
-        src/VisualSorter.cpp
-        src/VisualSorter.h
+        src/VisualSorter/VisualSorter.cpp
+        src/VisualSorter/VisualSorter.h
         src/utility.cpp
         src/utility.h
         src/chart.cpp
-        src/chart.h)
+        src/chart.h
+        src/VisualSorter/cycle_sort.cpp
+        src/VisualSorter/quicksort.cpp
+        src/VisualSorter/heapsort.cpp
+        src/VisualSorter/cocktail_sort.cpp
+        src/VisualSorter/comb_sort.cpp
+        src/VisualSorter/insertion_sort.cpp
+        src/VisualSorter/bubble_sort.cpp
+        src/VisualSorter/selection_sort.cpp)
 
 target_include_directories(atestat_informatica_cls_XII PRIVATE src/)
 

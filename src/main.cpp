@@ -1,6 +1,6 @@
 #include "RenderWindow.h"
 #include "utility.h"
-#include "VisualSorter.h"
+#include "VisualSorter/VisualSorter.h"
 #include <SDL3/SDL_main.h>
 #include <iostream>
 #include <string_view>
@@ -102,7 +102,7 @@ int main(int argc, char** argv)
     }
 
     // Instantiate visual sorter
-    VisualSorter visualSorter { window, rectColour, selectedColour, swappedColour, auxiliaryColour };
+    VisualSorter visualSorter { window, { rectColour, selectedColour, swappedColour, auxiliaryColour} };
 
     // Instantiate test vector
     std::vector<int> vector { generateConsecutiveRandomVector(-10, 10) };
