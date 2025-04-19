@@ -14,8 +14,8 @@ add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 add_executable(atestat_informatica_cls_XII src/main.cpp
         src/Rectangle.cpp
         src/Rectangle.h
-        src/render.cpp
-        src/render.h
+        src/RenderWindow.cpp
+        src/RenderWindow.h
         src/constants.h
         src/VisualSorter.cpp
         src/VisualSorter.h

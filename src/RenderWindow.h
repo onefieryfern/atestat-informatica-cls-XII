@@ -13,11 +13,11 @@ public:
     RenderWindow(const char *title, int width, int height, SDL_WindowFlags window_flags);
     ~RenderWindow();
 
-    SDL_Renderer* getRenderer();
-    SDL_Window* getWindow();
+    [[nodiscard]] SDL_Renderer* getRenderer() const;
+    [[nodiscard]] SDL_Window* getWindow() const;
 
-    void blank(const SDL_Color& colour = constants::colours::black);
-    void renderPresent();
+    void blank(const SDL_Color& colour = constants::colours::black) const;
+    void renderPresent() const;
 };
 
 #endif //ATESTAT_INFORMATICA_CLS_XII_RENDER_H

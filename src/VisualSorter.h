@@ -2,7 +2,7 @@
 #define ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
 
 #include "Rectangle.h"
-#include "render.h"
+#include "RenderWindow.h"
 #include <array>
 #include <queue>
 #include <vector>
