@@ -1,5 +1,5 @@
 #include "VisualSorter.h"
-#include "graphing.h"
+#include "chart.h"
 #include "utility.h"
 #include <cmath>
 #include <stack>
@@ -132,7 +132,8 @@ std::vector<Rectangle> VisualSorter::getCurrentStepRects()
 
     auto& [sortVector, highlightIndexes, highlightColours] { m_state.generatedSteps.front() };
 
-    std::vector currentStepRects { getRectsFromIntVector(m_renderWindow.getRenderer(), sortVector, m_colours.at(rectDefault)) };
+    std::vector currentStepRects
+        { chart::makeBarChartRects(m_renderWindow.getRenderer(), sortVector, m_colours.at(rectDefault)) };
     highlightRects(currentStepRects, highlightIndexes, highlightColours);
 
     m_state.generatedSteps.pop();
