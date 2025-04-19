@@ -1,5 +1,5 @@
 #include "utility.h"
-#include "rectangle.h"
+#include "Rectangle.h"
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
@@ -22,7 +22,7 @@ void highlightRects
     (
         std::vector<Rectangle>& rects,
         const std::vector<std::vector<size_t>>& highlightIndexes,
-        const std::vector<Rectangle::Colours>& highlightColours
+        const std::vector<Rectangle::Colour>& highlightColours
     )
 {
     const bool firstColourOnly { highlightColours.size() < highlightIndexes.size() };
@@ -33,11 +33,11 @@ void highlightRects
     for (size_t i = 0; i < len; ++i)
     {
         auto& currentIndexes { highlightIndexes.at(i) };
-        const Rectangle::Colours currentColour { firstColourOnly ? highlightColours.at(0) : highlightColours.at(i) };
+        const Rectangle::Colour currentColour { firstColourOnly ? highlightColours.at(0) : highlightColours.at(i) };
 
         for (const auto index : currentIndexes)
         {
-            rects.at(index).setColours(currentColour);
+            rects.at(index).setColour(currentColour);
         }
     }
 }

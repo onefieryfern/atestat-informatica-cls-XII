@@ -1,5 +1,5 @@
 #include "chart.h"
-#include "rectangle.h"
+#include "Rectangle.h"
 #include <algorithm>
 #include <vector>
 
@@ -13,7 +13,7 @@ namespace chart
      * @param colour the colour of the new rectangles
      * @return a std::vector\<Rectangle\> containing the rectangles
      */
-    std::vector<Rectangle> makeBarChartRects(SDL_Renderer *renderer, const std::vector<int>& vector, const Rectangle::Colours colour)
+    std::vector<Rectangle> makeBarChartRects(SDL_Renderer *renderer, const std::vector<int>& vector, const Rectangle::Colour colour)
     {
         // Get current rendering context output size
         int w {}, h {};

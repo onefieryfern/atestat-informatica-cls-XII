@@ -7,10 +7,10 @@
 VisualSorter::VisualSorter
     (
         RenderWindow& renderWindow,
-        const Rectangle::Colours rectDefaultColour,
-        const Rectangle::Colours selectedColour,
-        const Rectangle::Colours actedOnColour,
-        const Rectangle::Colours auxiliaryColour
+        const Rectangle::Colour rectDefaultColour,
+        const Rectangle::Colour selectedColour,
+        const Rectangle::Colour actedOnColour,
+        const Rectangle::Colour auxiliaryColour
     )
     : m_renderWindow { renderWindow }, m_colours { rectDefaultColour, selectedColour, actedOnColour, auxiliaryColour }
     {}

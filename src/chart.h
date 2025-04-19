@@ -2,7 +2,7 @@
 #define ATESTAT_INFORMATICA_CLS_XII_CHART_H
 
 #include "constants.h"
-#include "rectangle.h"
+#include "Rectangle.h"
 #include <vector>
 
 namespace chart
@@ -11,7 +11,7 @@ namespace chart
     (
             SDL_Renderer *renderer,
             const std::vector<int> &vector,
-            Rectangle::Colours colour = { constants::colours::white, constants::colours::none }
+            Rectangle::Colour colour = { constants::colours::white, constants::colours::none }
     );
 }
 

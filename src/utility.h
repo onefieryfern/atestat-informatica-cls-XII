@@ -1,14 +1,14 @@
 #ifndef ATESTAT_INFORMATICA_CLS_XII_UTILITY_H
 #define ATESTAT_INFORMATICA_CLS_XII_UTILITY_H
 
-#include "rectangle.h"
+#include "Rectangle.h"
 #include <vector>
 
 void highlightRects
     (
         std::vector<Rectangle>& rects,
         const std::vector<std::vector<size_t>>& highlightIndexes,
-        const std::vector<Rectangle::Colours>& highlightColours
+        const std::vector<Rectangle::Colour>& highlightColours
     );
 
 void longDelay(int32_t delay);

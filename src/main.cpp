@@ -28,13 +28,13 @@ int main(int argc, char** argv)
     constexpr int32_t delay { 100 };
 
     constexpr SDL_Color backgroundColour { constants::colours::white };
-    constexpr Rectangle::Colours rectColour
+    constexpr Rectangle::Colour rectColour
         { constants::colours::html::slateGrey, constants::colours::none };
-    constexpr Rectangle::Colours selectedColour
+    constexpr Rectangle::Colour selectedColour
         { constants::colours::html::dodgerBlue, constants::colours::none };
-    constexpr Rectangle::Colours swappedColour
+    constexpr Rectangle::Colour swappedColour
         { constants::colours::html::crimson, constants::colours::none };
-    constexpr Rectangle::Colours auxiliaryColour
+    constexpr Rectangle::Colour auxiliaryColour
         { constants::colours::html::mediumSeaGreen, constants::colours::none };
 
     // Initialise SDL subsystems

@@ -1,7 +1,7 @@
 #ifndef ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
 #define ATESTAT_INFORMATICA_CLS_XII_VISUALSORTER_H
 
-#include "rectangle.h"
+#include "Rectangle.h"
 #include "render.h"
 #include <array>
 #include <queue>
@@ -16,7 +16,7 @@ public:
     {
         std::vector<int> sortVector {};
         std::vector<std::vector<size_t>> highlightIndexes {};
-        std::vector<Rectangle::Colours> highlightColours {};
+        std::vector<Rectangle::Colour> highlightColours {};
     };
 
     struct State
@@ -32,12 +32,12 @@ private:
     State m_state;
 
     enum ColourIndex { rectDefault, selected, actedOn, auxiliary };
-    std::array<Rectangle::Colours, 4> m_colours
+    std::array<Rectangle::Colour, 4> m_colours
     {
-        Rectangle::Colours{ constants::colours::black, constants::colours::none },
-        Rectangle::Colours{ constants::colours::blue, constants::colours::none },
-        Rectangle::Colours{ constants::colours::red, constants::colours::none },
-        Rectangle::Colours{ constants::colours::green, constants::colours::none }
+        Rectangle::Colour{ constants::colours::black, constants::colours::none },
+        Rectangle::Colour{ constants::colours::blue, constants::colours::none },
+        Rectangle::Colour{ constants::colours::red, constants::colours::none },
+        Rectangle::Colour{ constants::colours::green, constants::colours::none }
     };
 
     bool continueSort();
@@ -56,10 +56,10 @@ public:
     VisualSorter
     (
         RenderWindow& renderWindow,
-        Rectangle::Colours rectDefaultColour,
-        Rectangle::Colours selectedColour,
-        Rectangle::Colours actedOnColour,
-        Rectangle::Colours auxiliaryColour
+        Rectangle::Colour rectDefaultColour,
+        Rectangle::Colour selectedColour,
+        Rectangle::Colour actedOnColour,
+        Rectangle::Colour auxiliaryColour
     );
 
     void startSort(const std::vector<int>& vector, SortingMethod method);
