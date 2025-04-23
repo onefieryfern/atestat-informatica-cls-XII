@@ -2,6 +2,7 @@
 #define ATESTAT_INFORMATICA_CLS_XII_UTILITY_H
 
 #include "Rectangle.h"
+#include <cstdint>
 #include <vector>
 
 void highlightRects

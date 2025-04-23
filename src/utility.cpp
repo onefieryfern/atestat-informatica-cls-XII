@@ -1,6 +1,7 @@
 #include "utility.h"
 #include "Rectangle.h"
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <iostream>
 #include <random>
