@@ -25,7 +25,7 @@ int main(int argc, char** argv)
     }
 
     // Default properties
-    constexpr int32_t delay { 100 };
+    constexpr uint32_t delay { 100 };
 
     constexpr SDL_Color backgroundColour { constants::colours::white };
     constexpr Rectangle::Colour rectColour

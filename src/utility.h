@@ -11,7 +11,7 @@ void highlightRects
         const std::vector<Rectangle::Colour>& highlightColours
     );
 
-void longDelay(int32_t delay);
+void longDelay(uint32_t delay);
 
 std::vector<int> generateRandomVector(size_t size, int min, int max);
 std::vector<int> generateConsecutiveRandomVector(int from, int to);

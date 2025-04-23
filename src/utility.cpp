@@ -42,9 +42,9 @@ void highlightRects
     }
 }
 
-void longDelay(const int32_t delay)
+void longDelay(const uint32_t delay)
 {
-    for (int32_t i = 1; i <= delay; ++i)
+    for (uint32_t i = 1; i <= delay; ++i)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
