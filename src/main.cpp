@@ -1,3 +1,4 @@
+#include "config.h"
 #include "RenderWindow.h"
 #include "utility.h"
 #include "VisualSorter/VisualSorter.h"
@@ -24,18 +25,8 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    // Default properties
-    constexpr uint32_t delay { 100 };
-
-    constexpr SDL_Color backgroundColour { constants::colours::white };
-    constexpr Rectangle::Colour rectColour
-        { constants::colours::html::slateGrey, constants::colours::none };
-    constexpr Rectangle::Colour selectedColour
-        { constants::colours::html::dodgerBlue, constants::colours::none };
-    constexpr Rectangle::Colour swappedColour
-        { constants::colours::html::crimson, constants::colours::none };
-    constexpr Rectangle::Colour auxiliaryColour
-        { constants::colours::html::mediumSeaGreen, constants::colours::none };
+    // Initialise app configuration
+    constexpr config::AppCfg appCfg { config::defaultAppCfg };
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
@@ -102,10 +93,19 @@ int main(int argc, char** argv)
     }
 
     // Instantiate visual sorter
-    VisualSorter visualSorter { window, { rectColour, selectedColour, swappedColour, auxiliaryColour} };
+    VisualSorter visualSorter { window, appCfg.barColours };
 
-    // Instantiate test vector
-    std::vector<int> vector { generateConsecutiveRandomVector(-10, 10) };
+    // Generate vector to be sorted
+    std::vector<int> vector;
+    switch (appCfg.vectorGeneratorCfg.type)
+    {
+    case config::VectorGeneratorCfg::consecutive:
+        vector = generateConsecutiveRandomVector(appCfg.vectorGeneratorCfg.min, appCfg.vectorGeneratorCfg.max);
+        break;
+    case config::VectorGeneratorCfg::random:
+        vector = generateRandomVector(appCfg.vectorGeneratorCfg.size, appCfg.vectorGeneratorCfg.min, appCfg.vectorGeneratorCfg.max);
+        break;
+    }
 
     // Start sorting
     SDL_SetWindowTitle(window.getWindow(), windowTitle.data());
@@ -114,13 +114,13 @@ int main(int argc, char** argv)
     // Do the sorting and draw the results
     while (!visualSorter.hasSortFinished())
     {
-        window.blank(backgroundColour);
+        window.blank(appCfg.backgroundColour);
         Rectangle::drawRects(window.getRenderer(), visualSorter.getCurrentStepRects());
         window.renderPresent();
 
-        longDelay(delay);
+        longDelay(appCfg.delay);
     }
-    longDelay(2 * delay);
+    longDelay(2 * appCfg.delay);
 
     // Exit gracefully
     window.~RenderWindow();

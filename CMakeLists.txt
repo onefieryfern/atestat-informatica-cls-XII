@@ -30,7 +30,9 @@ add_executable(atestat_informatica_cls_XII src/main.cpp
         src/VisualSorter/comb_sort.cpp
         src/VisualSorter/insertion_sort.cpp
         src/VisualSorter/bubble_sort.cpp
-        src/VisualSorter/selection_sort.cpp)
+        src/VisualSorter/selection_sort.cpp
+        src/config.cpp
+        src/config.h)
 
 target_include_directories(atestat_informatica_cls_XII PRIVATE src/)
 
