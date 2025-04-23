@@ -67,16 +67,22 @@ void longDelay(const uint32_t delay)
  * @param max
  * @return a filled std::vector<int>
  */
-std::vector<int> generateRandomVector(const size_t size, const int min, const int max)
+std::vector<int> generateRandomVector(const size_t size, int min, int max)
 {
     if (size > std::abs(min) + std::abs(max))
         throw std::invalid_argument { "Cannot build a vector of this size without repeating values." };
+
+    if (min > max)
+    {
+        std::swap(min, max);
+        std::cerr << "Warning: generateRandomVector was called with min > max\n";
+    }
 
     // Seed our Mersenne Twister
     std::mt19937 mt{ std::random_device{}() };
 
     // Create a reusable random number generator that generates uniform numbers between min and max
-    std::uniform_int_distribution<> die{ min, max };
+    std::uniform_int_distribution die{ min, max };
 
     std::vector<int> vector (size);
     for (size_t i = 0; i < size; )
