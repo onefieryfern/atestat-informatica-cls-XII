@@ -138,3 +138,63 @@ std::vector<int> generateConsecutiveRandomVector(int from, int to)
 
     return vector;
 }
+
+/**
+ * Finds the first position of any character in string
+ *
+ * @param string the string to be searched
+ * @param characters the characters to search for
+ * @return the found position or std::string::npos if the string does not contain any of the characters provided
+ */
+size_t findFirstCharPosInString(const std::string& string, const std::vector<char>& characters)
+{
+    size_t foundPos { std::string::npos };
+
+    for (const auto character : characters)
+    {
+        foundPos = std::min(foundPos, string.find_first_of(character));
+    }
+
+    return foundPos;
+}
+
+/**
+ * Tokenises a string according to the provided delimiters
+ *
+ * @param string the string to be tokenised
+ * @param delimiters the characters which separate the tokens
+ * @return a std::vector<std::string> with the found tokens
+ */
+std::vector<std::string> tokeniseString(std::string string, const std::vector<char>& delimiters)
+{
+    std::vector<std::string> tokens {};
+
+    while (true)
+    {
+        size_t firstDelimPos { findFirstCharPosInString(string, delimiters) };
+
+        // If a delimiter is found at the start
+        for ( ; !string.empty() && firstDelimPos == 0; firstDelimPos = findFirstCharPosInString(string, delimiters))
+        {
+            string = string.substr(1, std::string::npos);
+        }
+
+        // If no more delimiters are found
+        if (firstDelimPos == std::string::npos)
+        {
+            if (!string.empty())
+                tokens.push_back(string);
+
+            break;
+        }
+
+        // Save found token
+        tokens.push_back(string.substr(0, firstDelimPos));
+        if (firstDelimPos + 1 < string.size())
+            string = string.substr(firstDelimPos + 1, std::string::npos);
+        else
+            break;
+    }
+
+    return tokens;
+}
