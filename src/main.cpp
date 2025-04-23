@@ -26,7 +26,7 @@ int main(int argc, char** argv)
     }
 
     // Initialise app configuration
-    constexpr config::AppCfg appCfg { config::defaultAppCfg };
+    const config::AppCfg appCfg { config::readFromFile() };
 
     // Initialise SDL subsystems
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_EVENTS))

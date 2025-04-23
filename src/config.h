@@ -6,9 +6,12 @@
 #include <SDL3/SDL_pixels.h>
 #include <cstddef>
 #include <cstdint>
+#include <string>
 
 namespace config
 {
+    using namespace std::literals;
+
     struct VectorGeneratorCfg
     {
         enum Type { consecutive, random } type {};
@@ -42,6 +45,8 @@ namespace config
             0
         }
     };
+
+    AppCfg readFromFile(const std::string& filename = "config.conf"s);
 }
 
 #endif //ATESTAT_INFORMATICA_CLS_XII_CONFIG_H
