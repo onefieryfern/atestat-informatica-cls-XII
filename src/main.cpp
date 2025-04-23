@@ -115,7 +115,23 @@ int main(int argc, char** argv)
 
         longDelay(appCfg.delay);
     }
-    longDelay(2 * appCfg.delay);
+
+    // Wait for keypress to exit
+    std::cout << "Press any key in the sorting window to exit.\n";
+
+    bool keyPressed { false };
+    while (!keyPressed)
+    {
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_EVENT_KEY_DOWN)
+            {
+                keyPressed = true;
+                break;
+            }
+        }
+    }
 
     // Exit gracefully
     window.~RenderWindow();
