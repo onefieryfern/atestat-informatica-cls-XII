@@ -16,10 +16,15 @@ void VisualSorter::startSort(const std::vector<int>& vector, const SortingMethod
     m_state.sortVector = vector;
     m_state.method = method;
 
-    // Set algorithm-specific internal state
+    // Variables for readability
     const size_t len { vector.size() };
     auto& sortingVars { m_state.sortingVars };
 
+    // Check if the vector is too small
+    if (len <= 1)
+        m_state.method = none;
+
+    // Set algorithm-specific internal state
     switch (m_state.method)
     {
     case selection:
