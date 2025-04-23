@@ -6,8 +6,10 @@
       <option name="BLOCK_BRACE_PLACEMENT" value="5" />
       <option name="SPACE_BEFORE_INIT_LIST" value="true" />
     </Objective-C>
-    <codeStyleSettings language="ObjectiveC">
-      <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
-    </codeStyleSettings>
+    <RiderCodeStyleSettings>
+      <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_WITHIN_INITIALIZER_BRACES/@EntryValue" value="true" type="bool" />
+      <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_BEFORE_INITIALIZER_BRACES/@EntryValue" value="true" type="bool" />
+      <option name="/Default/CodeStyle/CodeFormatting/CppFormatting/SPACE_WITHIN_EMPTY_INITIALIZER_BRACES/@EntryValue" />
+    </RiderCodeStyleSettings>
   </code_scheme>
 </component>
