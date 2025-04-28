@@ -3,6 +3,7 @@
 #include <SDL3/SDL_pixels.h>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <string_view>
 
