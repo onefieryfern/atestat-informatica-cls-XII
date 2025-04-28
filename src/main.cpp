@@ -119,15 +119,15 @@ int main(int argc, char** argv)
     // Wait for keypress to exit
     std::cout << "Press any key in the sorting window to exit.\n";
 
-    bool keyPressed { false };
-    while (!keyPressed)
+    bool quitCondition { false };
+    while (!quitCondition)
     {
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
-            if (event.type == SDL_EVENT_KEY_DOWN)
+            if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_QUIT)
             {
-                keyPressed = true;
+                quitCondition = true;
                 break;
             }
         }
