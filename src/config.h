@@ -46,7 +46,7 @@ namespace config
         }
     };
 
-    AppCfg readFromFile(const std::string& filename = "config.conf"s);
+    AppCfg readFromFile(const std::string& filename = "config.txt"s);
 }
 
 #endif //ATESTAT_INFORMATICA_CLS_XII_CONFIG_H

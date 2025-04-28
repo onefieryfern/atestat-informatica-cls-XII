@@ -2,7 +2,7 @@
 
 ## Config
 
-The app is able to read config values from a `config.conf` file found in the same directory as itself. The config file
+The app is able to read config values from a `config.txt` file found in the same directory as itself. The config file
 is not automatically generated if it is not found.
 
 ### Known configuration keys
