@@ -8,6 +8,11 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
+# Statically link libraries on Windows
+if (WIN32)
+    string(APPEND CMAKE_EXE_LINKER_FLAGS "-static")
+endif()
+
 # This assumes the SDL source is available in vendored/SDL
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
