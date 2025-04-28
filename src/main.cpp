@@ -36,7 +36,7 @@ int main(int argc, char** argv)
     }
 
     // Create SDL window and associated renderer
-    RenderWindow window {"Hello World", 1920, 1080, SDL_WINDOW_RESIZABLE};
+    RenderWindow window {"Hello World", 1280, 720, SDL_WINDOW_RESIZABLE};
     SDL_SetWindowMinimumSize(window.getWindow(), 640, 360);
 
     // Display message after successful startup
